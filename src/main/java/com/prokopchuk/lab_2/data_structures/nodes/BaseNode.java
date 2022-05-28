@@ -1,8 +1,9 @@
 package com.prokopchuk.lab_2.data_structures.nodes;
 
 public class BaseNode<T> {
-    public BaseNode(){}
+    protected T value;
 
+    public BaseNode(){}
     public BaseNode(T value) {
         this.value = value;
     }
@@ -10,9 +11,7 @@ public class BaseNode<T> {
     public T getValue() {
         return value;
     }
-
     public void setValue(T value) {
         this.value = value;
     }
-    protected T value;
 }
