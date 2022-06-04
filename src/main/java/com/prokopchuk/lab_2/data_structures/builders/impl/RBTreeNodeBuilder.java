@@ -1,6 +1,5 @@
 package com.prokopchuk.lab_2.data_structures.builders.impl;
 
-import com.prokopchuk.lab_2.data_structures.builders.interfaces.IBinaryTreeNodeBuilder;
 import com.prokopchuk.lab_2.data_structures.builders.interfaces.IRBTreeNodeBuilder;
 import com.prokopchuk.lab_2.data_structures.nodes.Color;
 import com.prokopchuk.lab_2.data_structures.nodes.RBTreeNode;
@@ -11,7 +10,6 @@ public class RBTreeNodeBuilder<T> implements IRBTreeNodeBuilder<T, RBTreeNode<T>
     public RBTreeNodeBuilder() {
         this.builder = new BaseBuilder<T, RBTreeNode<T>>();
         this.setInstance(new RBTreeNode<T>());
-
     }
 
     @Override
@@ -29,7 +27,6 @@ public class RBTreeNodeBuilder<T> implements IRBTreeNodeBuilder<T, RBTreeNode<T>
     public void setInstance(RBTreeNode<T> node) {
         this.builder.setInstance(node);
     }
-
 
     @Override
     public RBTreeNodeBuilder<T> setLeft(RBTreeNode<T> left) {

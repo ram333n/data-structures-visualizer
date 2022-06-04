@@ -8,7 +8,6 @@ import com.prokopchuk.lab_2.data_structures.nodes.ListNode;
 import com.prokopchuk.lab_2.data_structures.nodes.RBTreeNode;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -19,15 +18,16 @@ import java.util.List;
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-        stage.setTitle("Hello!");
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("application_ui.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 1300, 800);
+        stage.setResizable(false);
+        stage.setTitle("Data visualizer");
         stage.setScene(scene);
         stage.show();
     }
 
     public static void main(String[] args) {
-        //launch();
+        launch();
         RBTreeNode<String> affa = new RBTreeNodeBuilder<String>().setValue("hui").setColor(Color.BLACK).setParent(null).setLeft(null).setRight(null).build();
         ListNode<Integer> fbbf = new ListNodeBuilder<Integer>().setValue(42).setNext(null).build();
         List<BaseNode> l = new LinkedList();

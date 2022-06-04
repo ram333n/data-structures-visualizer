@@ -2,7 +2,6 @@ package com.prokopchuk.lab_2.data_structures.builders.impl;
 
 import com.prokopchuk.lab_2.data_structures.builders.interfaces.IBinaryTreeNodeBuilder;
 import com.prokopchuk.lab_2.data_structures.nodes.BSTreeNode;
-import com.prokopchuk.lab_2.data_structures.nodes.IBinaryTreeNode;
 
 public class BSTreeNodeBuilder<T> implements IBinaryTreeNodeBuilder<T, BSTreeNode<T>, BSTreeNodeBuilder<T>> {
     private BaseBuilder<T, BSTreeNode<T>> builder;
@@ -14,7 +13,7 @@ public class BSTreeNodeBuilder<T> implements IBinaryTreeNodeBuilder<T, BSTreeNod
     }
 
     @Override
-    public IBinaryTreeNodeBuilder<T, BSTreeNode<T>, BSTreeNodeBuilder<T>> setValue(T value) {
+    public BSTreeNodeBuilder<T>  setValue(T value) {
         this.builder.setValue(value);
         return this;
     }

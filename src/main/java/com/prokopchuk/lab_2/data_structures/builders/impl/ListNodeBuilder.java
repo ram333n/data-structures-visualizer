@@ -12,7 +12,7 @@ public class ListNodeBuilder<T> implements IListNodeBuilder<T, ListNode<T>, List
     }
 
     @Override
-    public IListNodeBuilder<T, ListNode<T>, ListNodeBuilder<T>> setValue(T value) {
+    public ListNodeBuilder<T> setValue(T value) {
         this.builder.setValue(value);
         return this;
     }
