@@ -1,6 +1,6 @@
 package com.prokopchuk.lab_2.data_structures.nodes;
 
-public abstract class IBinaryTreeNode<T, Node extends BaseNode<T>> extends BaseNode<T>  {
+public abstract class AbstractBinaryTreeNode<T, Node extends BaseNode<T>> extends BaseNode<T>  {
     protected Node left;
     protected Node right;
     protected Node parent;
@@ -29,4 +29,7 @@ public abstract class IBinaryTreeNode<T, Node extends BaseNode<T>> extends BaseN
         this.parent = parent;
     }
 
+    public boolean isLeaf() {
+        return left == null && right == null;
+    }
 }

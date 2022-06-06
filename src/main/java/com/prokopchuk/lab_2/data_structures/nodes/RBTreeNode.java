@@ -1,7 +1,7 @@
 package com.prokopchuk.lab_2.data_structures.nodes;
 
-public class RBTreeNode<T> extends IBinaryTreeNode<T, RBTreeNode<T>> {
-    private Color color;
+public class RBTreeNode<T> extends AbstractBinaryTreeNode<T, RBTreeNode<T>> {
+    private Color color = Color.BLACK;
 
     public Color getColor() {
         return color;
