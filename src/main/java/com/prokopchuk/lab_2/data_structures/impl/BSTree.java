@@ -40,21 +40,21 @@ public class BSTree<T extends Comparable<T>> extends AbstractBinaryTree<T, BSTre
             return false;
         }
 
-        BSTreeNode<T> successor, temp;
-
-        if(toRemove.getLeft() == null || toRemove.getRight() == null) {
-            successor = toRemove;
+        if(toRemove.getLeft() == null) {
+            transplant(toRemove, toRemove.getRight());
+        } else if (toRemove.getRight() == null) {
+            transplant(toRemove, toRemove.getLeft());
         } else {
-            successor = successor(toRemove);
+            BSTreeNode<T> y = toRemove.getRight().getLeftest();
+            if(y.getParent() != toRemove) {
+                transplant(y, y.getRight());
+                y.setRight(toRemove.getRight());
+                y.getRight().setParent(y);
+            }
+            transplant(toRemove, y);
+            y.setLeft(toRemove.getLeft());
+            y.getLeft().setParent(y);
         }
-
-        if(successor.getLeft() != null) {
-            temp = successor.getLeft();
-        } else {
-            temp = successor.getRight();
-        }
-
-        //TODO : implement delete;
 
         return true;
     }

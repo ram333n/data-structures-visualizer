@@ -27,6 +27,20 @@ public abstract class AbstractBinaryTree<T extends Comparable<T>, Node extends A
         return current;
     }
 
+    protected void transplant(Node first, Node second) {
+        if(first.getParent() == null) {
+            root = second;
+        } else if (first == first.getParent().getLeft()) {
+            first.getParent().setLeft(second);
+        } else {
+            first.getParent().setRight(second);
+        }
+
+        if(second != null) {
+            second.setParent(first.getParent());
+        }
+    }
+
     @Override
     public boolean search(T value) {
         return find(value) != null;

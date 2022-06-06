@@ -28,6 +28,7 @@ public abstract class AbstractBinaryTreeIterator<T, Node extends AbstractBinaryT
             while(node.getParent() != null && node == node.getParent().getRight()) {
                 node = node.getParent();
             }
+            node = node.getParent();
         }
 
         return result;
