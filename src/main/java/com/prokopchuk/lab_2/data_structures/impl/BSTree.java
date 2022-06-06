@@ -1,12 +1,12 @@
 package com.prokopchuk.lab_2.data_structures.impl;
 
 import com.prokopchuk.lab_2.data_structures.builders.impl.BSTreeNodeBuilder;
+import com.prokopchuk.lab_2.data_structures.iterators.BSTreeIterator;
 import com.prokopchuk.lab_2.data_structures.nodes.BSTreeNode;
 
 import java.util.Iterator;
 
-public class BSTree<T extends Comparable<T>> implements DataStructure<T> {
-    private BSTreeNode<T> root;
+public class BSTree<T extends Comparable<T>> extends AbstractBinaryTree<T, BSTreeNode<T>> {
     @Override
     public void insert(T value) {
         BSTreeNode<T> toInsert = new BSTreeNodeBuilder<T>().setValue(value).build();
@@ -33,22 +33,34 @@ public class BSTree<T extends Comparable<T>> implements DataStructure<T> {
     }
 
     @Override
-    public boolean search(T value) {
-        BSTreeNode<T> current = root;
-        while(current != null && current.getValue().compareTo(value) != 0) {
-            current = value.compareTo(current.getValue()) < 0 ? current.getLeft() : current.getRight();
-        }
-        return current != null;
-    }
-
-    @Override
     public boolean delete(T value) {
-        //TODO : successor, predecessor, find(T value) : BSTreeNode(mb create AbstractBinaryTree)
-        return false;
+        BSTreeNode<T> toRemove = find(value);
+
+        if(toRemove == null) {
+            return false;
+        }
+
+        BSTreeNode<T> successor, temp;
+
+        if(toRemove.getLeft() == null || toRemove.getRight() == null) {
+            successor = toRemove;
+        } else {
+            successor = successor(toRemove);
+        }
+
+        if(successor.getLeft() != null) {
+            temp = successor.getLeft();
+        } else {
+            temp = successor.getRight();
+        }
+
+        //TODO : implement delete;
+
+        return true;
     }
 
     @Override
     public Iterator<T> iterator() {
-        return null;
+        return new BSTreeIterator<T>(root.getLeftest());
     }
 }

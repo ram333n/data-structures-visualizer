@@ -1,6 +1,6 @@
 package com.prokopchuk.lab_2.data_structures.nodes;
 
-public abstract class AbstractBinaryTreeNode<T, Node extends BaseNode<T>> extends BaseNode<T>  {
+public abstract class AbstractBinaryTreeNode<T, Node extends AbstractBinaryTreeNode<T, Node>> extends BaseNode<T>  {
     protected Node left;
     protected Node right;
     protected Node parent;
@@ -31,5 +31,13 @@ public abstract class AbstractBinaryTreeNode<T, Node extends BaseNode<T>> extend
 
     public boolean isLeaf() {
         return left == null && right == null;
+    }
+
+    public Node getLeftest() {
+       Node current = (Node)this;
+       while(current.left != null) {
+           current = current.left;
+       }
+       return current;
     }
 }

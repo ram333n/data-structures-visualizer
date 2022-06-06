@@ -11,17 +11,6 @@ public abstract class AbstractBinaryTreeIterator<T, Node extends AbstractBinaryT
         this.node = node;
     }
 
-    private Node getLeftest(Node r) {
-        if(r == null) {
-            return null;
-        }
-
-        while(r.getLeft() != null) {
-            r = r.getLeft();
-        }
-        return r;
-    }
-
     @Override
     public boolean hasNext() {
         return node != null;
@@ -32,7 +21,7 @@ public abstract class AbstractBinaryTreeIterator<T, Node extends AbstractBinaryT
         T result = node.getValue();
 
         if(node.getRight() != null) {
-            node = getLeftest(node.getRight());
+            node = node.getRight().getLeftest();
         } else if (node.getParent() != null && node.getParent().getLeft() == node) {
             node = node.getParent();
         } else {
