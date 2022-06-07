@@ -41,6 +41,50 @@ public abstract class AbstractBinaryTree<T extends Comparable<T>, Node extends A
         }
     }
 
+    protected void rotateLeft(Node toRotate) {
+        Node temp = toRotate.getRight();
+        toRotate.setRight(temp.getLeft());
+
+        if(temp.getLeft() != null) {
+            temp.getLeft().setParent(toRotate);
+        }
+
+        temp.setParent(toRotate.getParent());
+
+        if(toRotate.getParent() == null) {
+            root = temp;
+        } else if(toRotate == toRotate.getParent().getLeft()) {
+            toRotate.getParent().setLeft(temp);
+        } else {
+            toRotate.getParent().setRight(temp);
+        }
+
+        temp.setLeft(toRotate);
+        toRotate.setParent(temp);
+    }
+
+    protected void rotateRight(Node toRotate) {
+        Node temp = toRotate.getLeft();
+        toRotate.setLeft(temp.getRight());
+
+        if(temp.getRight() != null) {
+            temp.getRight().setParent(toRotate);
+        }
+
+        temp.setParent(toRotate.getParent());
+
+        if(toRotate.getParent() == null) {
+            root = temp;
+        } else if(toRotate == toRotate.getParent().getLeft()) {
+            toRotate.getParent().setRight(temp);
+        } else {
+            toRotate.getParent().setLeft(temp);
+        }
+
+        temp.setRight(toRotate);
+        toRotate.setParent(temp);
+    }
+
     @Override
     public boolean search(T value) {
         return find(value) != null;
