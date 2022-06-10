@@ -13,14 +13,14 @@ public abstract class AbstractBinaryTreeIterator<T, Node extends AbstractBinaryT
 
     @Override
     public boolean hasNext() {
-        return node != null;
+        return node != null && !node.isLeaf();
     }
 
     @Override
     public T next() {
         T result = node.getValue();
 
-        if(node.getRight() != null) {
+        if(!node.getRight().isLeaf()) {
             node = node.getRight().getLeftest();
         } else if (node.getParent() != null && node.getParent().getLeft() == node) {
             node = node.getParent();

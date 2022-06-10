@@ -7,11 +7,15 @@ import com.prokopchuk.lab_2.data_structures.nodes.BSTreeNode;
 import java.util.Iterator;
 
 public class BSTree<T extends Comparable<T>> extends AbstractBinaryTree<T, BSTreeNode<T>> {
+    public BSTree() {
+        nilNode = new BSTreeNode<T>();
+        root = nilNode;
+    }
     @Override
     public void insert(T value) {
-        BSTreeNode<T> toInsert = new BSTreeNodeBuilder<T>().setValue(value).build();
-        BSTreeNode<T> pos = null, current = root;
-        while(current != null) {
+        BSTreeNode<T> toInsert = new BSTreeNodeBuilder<T>().setValue(value).setLeft(nilNode).setRight(nilNode).build();
+        BSTreeNode<T> pos = nilNode, current = root;
+        while(current != nilNode) {
             pos = current;
             if(toInsert.getValue().compareTo(pos.getValue()) < 0) {
                 current = current.getLeft();
@@ -21,7 +25,7 @@ public class BSTree<T extends Comparable<T>> extends AbstractBinaryTree<T, BSTre
         }
         toInsert.setParent(pos);
 
-        if(pos == null) {
+        if(pos == nilNode) {
             root = toInsert;
         } else {
             if(toInsert.getValue().compareTo(pos.getValue()) < 0) {
@@ -36,13 +40,13 @@ public class BSTree<T extends Comparable<T>> extends AbstractBinaryTree<T, BSTre
     public boolean delete(T value) {
         BSTreeNode<T> toRemove = find(value);
 
-        if(toRemove == null) {
+        if(toRemove == nilNode) {
             return false;
         }
 
-        if(toRemove.getLeft() == null) {
+        if(toRemove.getLeft() == nilNode) {
             transplant(toRemove, toRemove.getRight());
-        } else if (toRemove.getRight() == null) {
+        } else if (toRemove.getRight() == nilNode) {
             transplant(toRemove, toRemove.getLeft());
         } else {
             BSTreeNode<T> y = toRemove.getRight().getLeftest();

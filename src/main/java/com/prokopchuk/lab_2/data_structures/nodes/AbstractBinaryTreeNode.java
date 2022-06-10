@@ -35,7 +35,7 @@ public abstract class AbstractBinaryTreeNode<T, Node extends AbstractBinaryTreeN
 
     public Node getLeftest() {
        Node current = (Node)this;
-       while(current.left != null) {
+       while(current.left != null && !current.left.isLeaf()) {
            current = current.left;
        }
        return current;

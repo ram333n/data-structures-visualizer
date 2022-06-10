@@ -28,10 +28,17 @@ public class Main extends Application {
             l.insert(i);
         }
 
-        for(Integer i : l) {
-            System.out.print(i + " ");
-        }
 
+//        l.insert(412);
+//        l.insert(-412);
+//        l.insert(0);
+//        l.insert(-41251);
+
+//        for(Integer i : l) {
+//            System.out.println(i + " " + l.search(i));
+//        }
+
+        l.printByLevels();
 //        if(l.delete(5)){
 //            System.out.println("Good");
 //        }
@@ -42,6 +49,6 @@ public class Main extends Application {
 //                System.out.print(i + " ");
 //            }
 //        }
-        System.out.println("End");
+//        System.out.println("End");
     }
 }

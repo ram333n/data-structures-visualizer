@@ -2,16 +2,19 @@ package com.prokopchuk.lab_2.data_structures.impl;
 
 import com.prokopchuk.lab_2.data_structures.nodes.AbstractBinaryTreeNode;
 
+import java.util.LinkedList;
+
 public abstract class AbstractBinaryTree<T extends Comparable<T>, Node extends AbstractBinaryTreeNode<T, Node>> implements DataStructure<T> {
     protected Node root;
+    protected Node nilNode;
 
     protected Node successor(Node node) {
-        if(node.getRight() != null) {
+        if(node.getRight() != nilNode) {
             return node.getRight().getLeftest();
         }
 
         Node current = node.getParent();
-        while(current != null && node == current.getRight()) {
+        while(current != nilNode && node == current.getRight()) {
             node = current;
             current = current.getParent();
         }
@@ -21,14 +24,14 @@ public abstract class AbstractBinaryTree<T extends Comparable<T>, Node extends A
 
     protected Node find(T value) {
         Node current = root;
-        while(current != null && current.getValue().compareTo(value) != 0) {
+        while(current != nilNode && current.getValue().compareTo(value) != 0) {
             current = value.compareTo(current.getValue()) < 0 ? current.getLeft() : current.getRight();
         }
         return current;
     }
 
     protected void transplant(Node first, Node second) {
-        if(first.getParent() == null) {
+        if(first.getParent() == nilNode) {
             root = second;
         } else if (first == first.getParent().getLeft()) {
             first.getParent().setLeft(second);
@@ -36,7 +39,7 @@ public abstract class AbstractBinaryTree<T extends Comparable<T>, Node extends A
             first.getParent().setRight(second);
         }
 
-        if(second != null) {
+        if(second != nilNode) {
             second.setParent(first.getParent());
         }
     }
@@ -45,13 +48,13 @@ public abstract class AbstractBinaryTree<T extends Comparable<T>, Node extends A
         Node temp = toRotate.getRight();
         toRotate.setRight(temp.getLeft());
 
-        if(temp.getLeft() != null) {
+        if(temp.getLeft() != nilNode) {
             temp.getLeft().setParent(toRotate);
         }
 
         temp.setParent(toRotate.getParent());
 
-        if(toRotate.getParent() == null) {
+        if(toRotate.getParent() == nilNode) {
             root = temp;
         } else if(toRotate == toRotate.getParent().getLeft()) {
             toRotate.getParent().setLeft(temp);
@@ -61,21 +64,22 @@ public abstract class AbstractBinaryTree<T extends Comparable<T>, Node extends A
 
         temp.setLeft(toRotate);
         toRotate.setParent(temp);
+        System.out.println("RL");
     }
 
     protected void rotateRight(Node toRotate) {
         Node temp = toRotate.getLeft();
         toRotate.setLeft(temp.getRight());
 
-        if(temp.getRight() != null) {
+        if(temp.getRight() != nilNode) {
             temp.getRight().setParent(toRotate);
         }
 
         temp.setParent(toRotate.getParent());
 
-        if(toRotate.getParent() == null) {
+        if(toRotate.getParent() == nilNode) {
             root = temp;
-        } else if(toRotate == toRotate.getParent().getLeft()) {
+        } else if(toRotate == toRotate.getParent().getRight()) {
             toRotate.getParent().setRight(temp);
         } else {
             toRotate.getParent().setLeft(temp);
@@ -83,10 +87,41 @@ public abstract class AbstractBinaryTree<T extends Comparable<T>, Node extends A
 
         temp.setRight(toRotate);
         toRotate.setParent(temp);
+        System.out.println("RR");
     }
 
     @Override
     public boolean search(T value) {
-        return find(value) != null;
+        return find(value) != nilNode;
+    }
+
+    public void printByLevels() {
+        if(root == nilNode) {
+            return;
+        }
+
+        LinkedList<Node> queue = new LinkedList<Node>();
+        queue.add(root);
+
+        while(!queue.isEmpty()) {
+            Node current = queue.pop();
+            System.out.print(current.getValue() + " ");
+
+            if(current.getLeft() != nilNode) {
+                queue.add(current.getLeft());
+            }
+
+            if(current.getRight() != nilNode) {
+                queue.add(current.getRight());
+            }
+        }
+    }
+
+    public Node getRoot() {
+        return root;
+    }
+
+    public Node getNilNode() {
+        return nilNode;
     }
 }
