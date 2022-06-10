@@ -57,31 +57,11 @@ public class RBTree<T extends Comparable<T>> extends AbstractBinaryTree<T, RBTre
         root.setColor(Color.BLACK);
     }
     @Override
-    public void insert(T value) { // mb ok
+    public void insert(T value) {
         RBTreeNode<T> toInsert = new RBTreeNodeBuilder<T>().setValue(value).setColor(Color.RED).setLeft(nilNode).setRight(nilNode).build();
-        RBTreeNode<T> pos = nilNode, current = root;
-        while(current != nilNode) {
-            pos = current;
-            if(toInsert.getValue().compareTo(pos.getValue()) < 0) {
-                current = current.getLeft();
-            } else {
-                current = current.getRight();
-            }
-        }
-
-        toInsert.setParent(pos);
-
-        if(pos == nilNode) {
-            root = toInsert;
-        } else if(toInsert.getValue().compareTo(pos.getValue()) < 0) {
-            pos.setLeft(toInsert);
-        } else {
-            pos.setRight(toInsert);
-        }
-
+        insertNode(toInsert);
         insertFixup(toInsert);
     }
-
 
     @Override
     public boolean delete(T value) {

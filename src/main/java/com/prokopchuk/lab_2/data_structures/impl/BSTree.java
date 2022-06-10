@@ -14,26 +14,7 @@ public class BSTree<T extends Comparable<T>> extends AbstractBinaryTree<T, BSTre
     @Override
     public void insert(T value) {
         BSTreeNode<T> toInsert = new BSTreeNodeBuilder<T>().setValue(value).setLeft(nilNode).setRight(nilNode).build();
-        BSTreeNode<T> pos = nilNode, current = root;
-        while(current != nilNode) {
-            pos = current;
-            if(toInsert.getValue().compareTo(pos.getValue()) < 0) {
-                current = current.getLeft();
-            } else {
-                current = current.getRight();
-            }
-        }
-        toInsert.setParent(pos);
-
-        if(pos == nilNode) {
-            root = toInsert;
-        } else {
-            if(toInsert.getValue().compareTo(pos.getValue()) < 0) {
-                pos.setLeft(toInsert);
-            } else {
-                pos.setRight(toInsert);
-            }
-        }
+        insertNode(toInsert);
     }
 
     @Override

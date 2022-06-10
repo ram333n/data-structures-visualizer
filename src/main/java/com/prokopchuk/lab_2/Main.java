@@ -34,9 +34,9 @@ public class Main extends Application {
 //        l.insert(0);
 //        l.insert(-41251);
 
-//        for(Integer i : l) {
-//            System.out.println(i + " " + l.search(i));
-//        }
+        for(Integer i : l) {
+            System.out.println(i + " " + l.search(i));
+        }
 
         l.printByLevels();
 //        if(l.delete(5)){

@@ -1,6 +1,7 @@
 package com.prokopchuk.lab_2.data_structures.impl;
 
 import com.prokopchuk.lab_2.data_structures.nodes.AbstractBinaryTreeNode;
+import com.prokopchuk.lab_2.data_structures.nodes.RBTreeNode;
 
 import java.util.LinkedList;
 
@@ -28,6 +29,28 @@ public abstract class AbstractBinaryTree<T extends Comparable<T>, Node extends A
             current = value.compareTo(current.getValue()) < 0 ? current.getLeft() : current.getRight();
         }
         return current;
+    }
+
+    protected void insertNode(Node toInsert) {
+        Node pos = nilNode, current = root;
+        while(current != nilNode) {
+            pos = current;
+            if(toInsert.getValue().compareTo(pos.getValue()) < 0) {
+                current = current.getLeft();
+            } else {
+                current = current.getRight();
+            }
+        }
+
+        toInsert.setParent(pos);
+
+        if(pos == nilNode) {
+            root = toInsert;
+        } else if(toInsert.getValue().compareTo(pos.getValue()) < 0) {
+            pos.setLeft(toInsert);
+        } else {
+            pos.setRight(toInsert);
+        }
     }
 
     protected void transplant(Node first, Node second) {
