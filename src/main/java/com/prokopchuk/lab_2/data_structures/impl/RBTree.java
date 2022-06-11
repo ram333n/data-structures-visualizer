@@ -14,47 +14,109 @@ public class RBTree<T extends Comparable<T>> extends AbstractBinaryTree<T, RBTre
         root = nilNode;
     }
 
-    private void insertFixup(RBTreeNode<T> toInsert) {
+    private void insertFixup(RBTreeNode<T> z) {
         RBTreeNode<T> y;
-        while(toInsert.getParent().getColor() == Color.RED) {
-            if(toInsert.getParent() == toInsert.getParent().getParent().getLeft()) {
-                y = toInsert.getParent().getParent().getRight();
+        while(z.getParent().getColor() == Color.RED) {
+            if(z.getParent() == z.getParent().getParent().getLeft()) {
+                y = z.getParent().getParent().getRight();
                 if(y.getColor() == Color.RED) {
-                    toInsert.getParent().setColor(Color.BLACK);
+                    z.getParent().setColor(Color.BLACK);
                     y.setColor(Color.BLACK);
-                    toInsert.getParent().getParent().setColor(Color.RED);
-                    toInsert = toInsert.getParent().getParent();
+                    z.getParent().getParent().setColor(Color.RED);
+                    z = z.getParent().getParent();
                 } else {
-                    if(toInsert == toInsert.getParent().getRight()) {
-                        toInsert = toInsert.getParent();
-                        rotateLeft(toInsert);
+                    if(z == z.getParent().getRight()) {
+                        z = z.getParent();
+                        rotateLeft(z);
                     }
 
-                    toInsert.getParent().setColor(Color.BLACK);
-                    toInsert.getParent().getParent().setColor(Color.RED);
-                    rotateRight(toInsert.getParent().getParent());
+                    z.getParent().setColor(Color.BLACK);
+                    z.getParent().getParent().setColor(Color.RED);
+                    rotateRight(z.getParent().getParent());
                 }
             } else {
-                y = toInsert.getParent().getParent().getLeft();
+                y = z.getParent().getParent().getLeft();
                 if(y.getColor() == Color.RED) {
-                    toInsert.getParent().setColor(Color.BLACK);
+                    z.getParent().setColor(Color.BLACK);
                     y.setColor(Color.BLACK);
-                    toInsert.getParent().getParent().setColor(Color.RED);
-                    toInsert = toInsert.getParent().getParent();
+                    z.getParent().getParent().setColor(Color.RED);
+                    z = z.getParent().getParent();
                 } else {
-                    if(toInsert == toInsert.getParent().getLeft()) {
-                        toInsert = toInsert.getParent();
-                        rotateRight(toInsert);
+                    if(z == z.getParent().getLeft()) {
+                        z = z.getParent();
+                        rotateRight(z);
                     }
 
-                    toInsert.getParent().setColor(Color.BLACK);
-                    toInsert.getParent().getParent().setColor(Color.RED);
-                    rotateLeft(toInsert.getParent().getParent());
+                    z.getParent().setColor(Color.BLACK);
+                    z.getParent().getParent().setColor(Color.RED);
+                    rotateLeft(z.getParent().getParent());
                 }
             }
         }
 
         root.setColor(Color.BLACK);
+    }
+
+    private void deleteFixup(RBTreeNode<T> x) {
+        RBTreeNode<T> w;
+        while (x != root && x.getColor() == Color.BLACK) {
+            if (x == x.getParent().getLeft()) {
+                w = x.getParent().getRight();
+
+                if (w.getColor() == Color.RED) {
+                    w.setColor(Color.BLACK);
+                    x.getParent().setColor(Color.RED);
+                    rotateLeft(x.getParent());
+                    w = x.getParent().getRight();
+                }
+
+                if (w.getLeft().getColor() == Color.BLACK && w.getRight().getColor() == Color.BLACK) {
+                    w.setColor(Color.RED);
+                    x = x.getParent();
+                } else {
+                    if (w.getRight().getColor() == Color.BLACK) {
+                        w.getLeft().setColor(Color.BLACK);
+                        w.setColor(Color.RED);
+                        rotateRight(w);
+                        w = x.getParent().getRight();
+                    }
+
+                    w.setColor(x.getParent().getColor());
+                    x.getParent().setColor(Color.BLACK);
+                    w.getRight().setColor(Color.BLACK);
+                    rotateLeft(x.getParent());
+                    x = root;
+                }
+            } else {
+                w = x.getParent().getLeft();
+
+                if (w.getColor() == Color.RED) {
+                    w.setColor(Color.BLACK);
+                    x.getParent().setColor(Color.RED);
+                    rotateRight(x.getParent());
+                    w = x.getParent().getLeft();
+                }
+
+                if (w.getRight().getColor() == Color.BLACK && w.getLeft().getColor() == Color.BLACK) {
+                    w.setColor(Color.RED);
+                    x = x.getParent();
+                } else {
+                    if (w.getLeft().getColor() == Color.BLACK) {
+                        w.getRight().setColor(Color.BLACK);
+                        w.setColor(Color.RED);
+                        rotateLeft(w);
+                        w = x.getParent().getLeft();
+                    }
+
+                    w.setColor(x.getParent().getColor());
+                    x.getParent().setColor(Color.BLACK);
+                    w.getLeft().setColor(Color.BLACK);
+                    rotateRight(x.getParent());
+                    x = root;
+                }
+            }
+        }
+        x.setColor(Color.BLACK);
     }
     @Override
     public void insert(T value) {
@@ -65,7 +127,46 @@ public class RBTree<T extends Comparable<T>> extends AbstractBinaryTree<T, RBTre
 
     @Override
     public boolean delete(T value) {
-        return false;
+        //TODO : fix it
+        RBTreeNode<T> toRemove = find(value);
+
+        if(toRemove == nilNode) {
+            return false;
+        }
+
+        RBTreeNode<T> y = toRemove, x;
+        Color yOriginalColor = y.getColor();
+
+        if(toRemove.getLeft() == nilNode) {
+            x = toRemove.getRight();
+            transplant(toRemove, toRemove.getRight());
+        } else if(toRemove.getRight() == nilNode) {
+            x = toRemove.getLeft();
+            transplant(toRemove, toRemove.getLeft());
+        } else {
+            y = toRemove.getRight().getLeftest();
+            yOriginalColor = y.getColor();
+            x = y.getRight();
+
+            if(y.getParent() == toRemove) {
+                x.setParent(toRemove);
+            } else {
+                transplant(y, y.getRight());
+                y.setRight(toRemove.getRight());
+                y.getRight().setParent(y);
+            }
+
+            transplant(toRemove, y);
+            y.setLeft(toRemove.getLeft());
+            y.getLeft().setParent(y);
+            y.setColor(toRemove.getColor());
+        }
+
+        if(yOriginalColor == Color.BLACK) {
+            deleteFixup(x);
+        }
+
+        return true;
     }
 
     @Override

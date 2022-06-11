@@ -1,7 +1,5 @@
 package com.prokopchuk.lab_2;
 
-import com.prokopchuk.lab_2.data_structures.impl.BSTree;
-import com.prokopchuk.lab_2.data_structures.impl.LinkedList;
 import com.prokopchuk.lab_2.data_structures.impl.RBTree;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -35,10 +33,15 @@ public class Main extends Application {
 //        l.insert(-41251);
 
         for(Integer i : l) {
-            System.out.println(i + " " + l.search(i));
+            System.out.print(i + " ");
         }
-
+        System.out.println();
+        l.delete(3);
         l.printByLevels();
+        System.out.println();
+        for(Integer i : l) {
+            System.out.print(i + " ");
+        }
 //        if(l.delete(5)){
 //            System.out.println("Good");
 //        }
@@ -49,6 +52,10 @@ public class Main extends Application {
 //                System.out.print(i + " ");
 //            }
 //        }
-//        System.out.println("End");
+        System.out.println();
+        if(l.delete(4) && !l.delete(3) && l.delete(1)) {
+            l.printByLevels();
+        }
+        System.out.println("End");
     }
 }

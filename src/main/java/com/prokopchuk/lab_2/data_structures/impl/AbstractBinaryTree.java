@@ -1,7 +1,6 @@
 package com.prokopchuk.lab_2.data_structures.impl;
 
 import com.prokopchuk.lab_2.data_structures.nodes.AbstractBinaryTreeNode;
-import com.prokopchuk.lab_2.data_structures.nodes.RBTreeNode;
 
 import java.util.LinkedList;
 
@@ -62,9 +61,7 @@ public abstract class AbstractBinaryTree<T extends Comparable<T>, Node extends A
             first.getParent().setRight(second);
         }
 
-        if(second != nilNode) {
-            second.setParent(first.getParent());
-        }
+        second.setParent(first.getParent());
     }
 
     protected void rotateLeft(Node toRotate) {
@@ -87,7 +84,6 @@ public abstract class AbstractBinaryTree<T extends Comparable<T>, Node extends A
 
         temp.setLeft(toRotate);
         toRotate.setParent(temp);
-        System.out.println("RL");
     }
 
     protected void rotateRight(Node toRotate) {
@@ -110,7 +106,6 @@ public abstract class AbstractBinaryTree<T extends Comparable<T>, Node extends A
 
         temp.setRight(toRotate);
         toRotate.setParent(temp);
-        System.out.println("RR");
     }
 
     @Override
