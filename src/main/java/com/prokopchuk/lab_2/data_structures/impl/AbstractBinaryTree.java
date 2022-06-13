@@ -138,8 +138,4 @@ public abstract class AbstractBinaryTree<T extends Comparable<T>, Node extends A
     public Node getRoot() {
         return root;
     }
-
-    public Node getNilNode() {
-        return nilNode;
-    }
 }

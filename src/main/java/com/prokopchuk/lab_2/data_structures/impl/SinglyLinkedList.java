@@ -6,7 +6,7 @@ import com.prokopchuk.lab_2.data_structures.nodes.ListNode;
 
 import java.util.Iterator;
 
-public class LinkedList<T extends Comparable<T>> implements DataStructure<T> {
+public class SinglyLinkedList<T extends Comparable<T>> implements DataStructure<T> {
     private ListNode<T> head;
 
     @Override

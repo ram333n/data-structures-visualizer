@@ -4,8 +4,8 @@ Implemented patterns :
 
 - Creational patterns :
     - Builder(for creating nodes)
-    - *TBI* Singleton(DataStructure factory)
-    - *TBI* Factory(for creating data structures)
+    - Singleton(DataStructure factory)
+    - Factory(for creating data structures)
 - Structural patterns :
     - Decorator(for implementing hierarchy of builders)
 - Behaivoral patterns :
