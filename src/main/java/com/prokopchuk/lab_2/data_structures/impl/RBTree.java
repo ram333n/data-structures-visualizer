@@ -127,7 +127,6 @@ public class RBTree<T extends Comparable<T>> extends AbstractBinaryTree<T, RBTre
 
     @Override
     public boolean delete(T value) {
-        //TODO : fix it
         RBTreeNode<T> toRemove = find(value);
 
         if(toRemove == nilNode) {
@@ -149,7 +148,7 @@ public class RBTree<T extends Comparable<T>> extends AbstractBinaryTree<T, RBTre
             x = y.getRight();
 
             if(y.getParent() == toRemove) {
-                x.setParent(toRemove);
+                x.setParent(y);
             } else {
                 transplant(y, y.getRight());
                 y.setRight(toRemove.getRight());

@@ -54,8 +54,13 @@ public class Main extends Application {
 //        }
         System.out.println();
         if(l.delete(4) && !l.delete(3) && l.delete(1)) {
-            l.printByLevels();
+            //l.printByLevels();
         }
+
+        l.delete(6);
+        l.delete(5);
+        l.delete(7);
+        l.printByLevels();
         System.out.println("End");
     }
 }
