@@ -2,7 +2,6 @@ package com.prokopchuk.lab_2.data_structures.tests;
 
 import com.prokopchuk.lab_2.data_structures.factories.DataStructuresFactory;
 import com.prokopchuk.lab_2.data_structures.impl.*;
-import com.prokopchuk.lab_2.data_structures.nodes.BSTreeNode;
 import com.prokopchuk.lab_2.data_structures.nodes.Color;
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DataStructures {
     LinkedList<Integer> getTraversalData(DataStructure<Integer> dataStructure) {
-        LinkedList<Integer> result = new LinkedList<Integer>();
+        LinkedList<Integer> result = new LinkedList<>();
         Iterator<Integer> it = dataStructure.iterator();
         while(it.hasNext()) {
             result.add(it.next());
@@ -69,7 +68,7 @@ class DataStructures {
 
         assertTrue(list.delete(2) && list.delete(3) && list.delete(4) && !list.delete(42));
         assertEquals(1, list.getHead().getValue());
-        assertEquals(null, list.getHead().getNext());
+        assertNull(list.getHead().getNext());
     }
 
     @Test
@@ -93,7 +92,7 @@ class DataStructures {
         assertEquals(7, tree.getRoot().getRight().getValue());
 
         assertTrue(tree.delete(2));
-        assertEquals(null, tree.getRoot().getLeft().getRight().getValue());
+        assertNull(tree.getRoot().getLeft().getRight().getValue());
         assertEquals(3, tree.getRoot().getLeft().getValue());
         assertEquals(1, tree.getRoot().getLeft().getLeft().getValue());
     }
@@ -149,5 +148,41 @@ class DataStructures {
         assertEquals(Color.BLACK, tree.getRoot().getLeft().getColor());
         assertEquals(Color.RED, tree.getRoot().getRight().getColor());
         assertEquals(Color.RED, tree.getRoot().getLeft().getLeft().getColor());
+    }
+
+    @Test
+    void testUniqueDataStructure() {
+        UniqueDataStructure<Integer> list = new UniqueDataStructure<>(StructureType.SINGLY_LINKED_LIST);
+        UniqueDataStructure<Integer> bstree = new UniqueDataStructure<>(StructureType.BSTREE);
+        UniqueDataStructure<Integer> rbtree = new UniqueDataStructure<>(StructureType.RBTREE);
+
+        for(int i = 0; i < 3; ++i) {
+            for(int j = 0; j < 3; ++j) {
+                list.insert(i);
+                bstree.insert(i);
+                rbtree.insert(i);
+            }
+        }
+
+        LinkedList<Integer> listTraversal = new LinkedList<>();
+        LinkedList<Integer> bstreeTraversal = new LinkedList<>();
+        LinkedList<Integer> rbtreeTraversal = new LinkedList<>();
+        LinkedList<Integer> expected = new LinkedList<>(){{add(2); add(1); add(0);}};
+
+        for(Integer i : list) {
+            listTraversal.add(i);
+        }
+
+        for(Integer i : bstree) {
+            bstreeTraversal.add(i);
+        }
+
+        for(Integer i : rbtree) {
+            rbtreeTraversal.add(i);
+        }
+
+        assertEquals(expected, listTraversal);
+        Collections.reverse(listTraversal);
+        assertTrue(listTraversal.equals(bstreeTraversal) && bstreeTraversal.equals(rbtreeTraversal));
     }
 }
