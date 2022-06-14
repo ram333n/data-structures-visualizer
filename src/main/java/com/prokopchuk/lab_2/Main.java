@@ -20,7 +20,7 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
-        //launch();
+        launch();
         RBTree<Integer> l = new RBTree<Integer>();
         for(int i = 0; i < 10; ++i) {
             l.insert(i);

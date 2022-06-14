@@ -52,4 +52,8 @@ public class SinglyLinkedList<T extends Comparable<T>> implements DataStructure<
     public Iterator<T> iterator() {
         return new ListIterator<T>(head);
     }
+
+    public ListNode<T> getHead() {
+        return head;
+    }
 }
