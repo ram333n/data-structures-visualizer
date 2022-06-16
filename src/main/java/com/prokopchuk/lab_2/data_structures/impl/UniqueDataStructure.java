@@ -27,6 +27,10 @@ public class UniqueDataStructure<T extends Comparable<T>> implements Iterable<T>
         return data.delete(value);
     }
 
+    public int getLength() {
+        return data.getLength();
+    }
+
     @Override
     public Iterator<T> iterator() {
         return data.iterator();

@@ -11,5 +11,5 @@ Implemented patterns :
     - Proxy(for creating data structures with unique values)
 - Behaivoral patterns :
     - Iterator(for iterating through data structures)
-    - *mb TBI* Strategy()
+    - Visitor(for calculating points to draw)
 

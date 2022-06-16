@@ -57,6 +57,7 @@ class DataStructures {
         list.insert(1);
         list.insert(3);
 
+        assertEquals(4, list.getLength());
         assertEquals(3, list.getHead().getValue());
 
         assertTrue(list.search(4));
@@ -83,10 +84,14 @@ class DataStructures {
         tree.insert(7);
         tree.insert(15);
 
+        assertEquals(7, tree.getLength());
+
         assertTrue(tree.search(5) && tree.search(15) && tree.search(3) && !tree.search(22) && !tree.search(-42));
 
         assertTrue(tree.delete(15));
         assertTrue(tree.getRoot().getRight().getRight().isLeaf());
+
+        assertEquals(6, tree.getLength());
 
         assertTrue(tree.delete(10));
         assertEquals(7, tree.getRoot().getRight().getValue());
@@ -95,6 +100,8 @@ class DataStructures {
         assertNull(tree.getRoot().getLeft().getRight().getValue());
         assertEquals(3, tree.getRoot().getLeft().getValue());
         assertEquals(1, tree.getRoot().getLeft().getLeft().getValue());
+
+        assertEquals(4, tree.getLength());
     }
 
     @Test
@@ -116,6 +123,7 @@ class DataStructures {
 
         tree.insert(3);
         assertEquals(Color.RED, tree.getRoot().getLeft().getColor());
+        assertEquals(9, tree.getLength());
     }
 
     @Test
@@ -145,6 +153,8 @@ class DataStructures {
             assertEquals(Color.BLACK, tree.getRoot().getColor());
         }
 
+        assertEquals(6, tree.getLength());
+
         assertEquals(Color.BLACK, tree.getRoot().getLeft().getColor());
         assertEquals(Color.RED, tree.getRoot().getRight().getColor());
         assertEquals(Color.RED, tree.getRoot().getLeft().getLeft().getColor());
@@ -163,6 +173,10 @@ class DataStructures {
                 rbtree.insert(i);
             }
         }
+
+        assertEquals(3, list.getLength());
+        assertEquals(3, bstree.getLength());
+        assertEquals(3, rbtree.getLength());
 
         LinkedList<Integer> listTraversal = new LinkedList<>();
         LinkedList<Integer> bstreeTraversal = new LinkedList<>();

@@ -165,6 +165,7 @@ public class RBTree<T extends Comparable<T>> extends AbstractBinaryTree<T, RBTre
             deleteFixup(x);
         }
 
+        --length;
         return true;
     }
 

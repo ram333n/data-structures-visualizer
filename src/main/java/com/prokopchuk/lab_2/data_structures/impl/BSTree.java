@@ -41,6 +41,7 @@ public class BSTree<T extends Comparable<T>> extends AbstractBinaryTree<T, BSTre
             y.getLeft().setParent(y);
         }
 
+        --length;
         return true;
     }
 

@@ -1,12 +1,14 @@
 package com.prokopchuk.lab_2.data_structures.impl;
 
 import com.prokopchuk.lab_2.data_structures.nodes.AbstractBinaryTreeNode;
+import com.prokopchuk.lab_2.ui.visitors.IVisitor;
 
 import java.util.LinkedList;
 
 public abstract class AbstractBinaryTree<T extends Comparable<T>, Node extends AbstractBinaryTreeNode<T, Node>> implements DataStructure<T> {
     protected Node root;
     protected Node nilNode;
+    protected int length = 0;
 
     protected Node successor(Node node) {
         if(node.getRight() != nilNode) {
@@ -31,6 +33,7 @@ public abstract class AbstractBinaryTree<T extends Comparable<T>, Node extends A
     }
 
     protected void insertNode(Node toInsert) {
+        ++length;
         Node pos = nilNode, current = root;
         while(current != nilNode) {
             pos = current;
@@ -108,9 +111,21 @@ public abstract class AbstractBinaryTree<T extends Comparable<T>, Node extends A
         toRotate.setParent(temp);
     }
 
+    protected int getHeightImpl(Node node) {
+        if(node == nilNode) {
+            return 0;
+        }
+
+        return Math.max(getHeightImpl(node.getLeft()), getHeightImpl(node.getRight())) + 1;
+    }
+
     @Override
     public boolean search(T value) {
         return find(value) != nilNode;
+    }
+
+    public int getHeight() {
+        return getHeightImpl(root);
     }
 
     public void printByLevels() {
@@ -133,6 +148,16 @@ public abstract class AbstractBinaryTree<T extends Comparable<T>, Node extends A
                 queue.add(current.getRight());
             }
         }
+    }
+
+    @Override
+    public void visit(IVisitor<T> visitor) {
+        visitor.calculateTreeNodeSize(length);
+        visitor.visitTree(root);
+    }
+
+    public int getLength() {
+        return length;
     }
 
     public Node getRoot() {
