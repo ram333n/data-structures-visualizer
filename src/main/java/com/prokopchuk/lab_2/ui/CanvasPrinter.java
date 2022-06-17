@@ -17,7 +17,7 @@ public class CanvasPrinter<T> {
 
     public CanvasPrinter(Canvas canvas) {
         this.canvas = canvas;
-        this.visitor = new DrawVisitor<>(canvas.getWidth(), canvas.getHeight());
+        this.visitor = new DrawVisitor<>(canvas.getWidth() - DrawVisitor.MIN_NODE_SIZE, canvas.getHeight());
         this.gc = canvas.getGraphicsContext2D();
     }
 
@@ -28,8 +28,8 @@ public class CanvasPrinter<T> {
     private void printEdges() {
         for(Dimension2D[] edge : visitor.getEdgesPoints()) {
             gc.beginPath();
-            gc.moveTo(edge[0].getWidth(), edge[0].getHeight());
-            gc.lineTo(edge[1].getWidth(), edge[1].getHeight());
+            gc.moveTo(edge[0].getWidth() + DrawVisitor.MIN_NODE_SIZE / 2, edge[0].getHeight());
+            gc.lineTo(edge[1].getWidth() + DrawVisitor.MIN_NODE_SIZE / 2, edge[1].getHeight());
             gc.stroke();
         }
     }
@@ -38,7 +38,6 @@ public class CanvasPrinter<T> {
         final double nodeSize = visitor.getNodeSize();
         double fontWidth = nodeSize / 4;
         Font font = new Font(nodeSize / 2);
-        System.out.println(font.getSize());
         gc.setFont(font);
 
         for(DrawData<T> drawData : visitor.getNodesData()) {
@@ -46,13 +45,13 @@ public class CanvasPrinter<T> {
             String text = drawData.getValue().toString();
 
             gc.setFill(drawData.getDrawNodeColor());
-            gc.fillOval(centerPoint.getWidth() - nodeSize / 2, centerPoint.getHeight() - nodeSize / 2, nodeSize, nodeSize);
-            gc.setFill(Color.YELLOWGREEN);
+            gc.fillOval(centerPoint.getWidth() - nodeSize / 2 + DrawVisitor.MIN_NODE_SIZE / 2, centerPoint.getHeight() - nodeSize / 2, nodeSize, nodeSize);
+            gc.setFill(Color.WHITE);
 
-            double offset = (nodeSize - (4 - text.length()) * fontWidth) / 2 - nodeSize / 2;
+            double offset = (nodeSize - text.length() * fontWidth) / 2;
             System.out.println(nodeSize);
             System.out.println(offset);
-            gc.fillText(text, centerPoint.getWidth() + offset, centerPoint.getHeight() + nodeSize / 4, nodeSize);
+            gc.fillText(text, centerPoint.getWidth() + offset - nodeSize / 2 + DrawVisitor.MIN_NODE_SIZE / 2, centerPoint.getHeight() + nodeSize / 8);
         }
     }
 

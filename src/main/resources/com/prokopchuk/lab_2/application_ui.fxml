@@ -58,13 +58,13 @@
                   <Font name="Agency FB" size="21.0" />
                </font>
             </Label>
-            <ComboBox fx:id="dataStructureComboBox" prefHeight="25.0" prefWidth="273.0" GridPane.columnIndex="2" GridPane.columnSpan="3" GridPane.rowIndex="1" />
+            <ComboBox fx:id="dataStructureComboBox" prefHeight="25.0" prefWidth="145.0" GridPane.columnIndex="2" GridPane.columnSpan="3" GridPane.rowIndex="1" />
             <Label prefHeight="26.0" prefWidth="199.0" text="Operation" GridPane.rowIndex="2">
                <font>
                   <Font name="Agency FB" size="21.0" />
                </font>
             </Label>
-            <HBox prefHeight="83.0" prefWidth="201.0" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="2">
+            <HBox prefHeight="83.0" prefWidth="207.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="2">
                <children>
                   <VBox prefHeight="63.0" prefWidth="86.0">
                      <children>
@@ -90,8 +90,8 @@
                   <Font name="Agency FB" size="21.0" />
                </font>
             </Label>
-            <TextField fx:id="inputField" prefHeight="25.0" prefWidth="225.0" GridPane.columnIndex="2" GridPane.columnSpan="3" GridPane.rowIndex="3" />
-            <VBox prefHeight="118.0" prefWidth="72.0" GridPane.columnIndex="3" GridPane.rowIndex="4">
+            <TextField fx:id="inputField" prefHeight="25.0" prefWidth="133.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="3" />
+            <VBox prefHeight="118.0" prefWidth="72.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
                <children>
                   <Button fx:id="applyBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="35.0" prefWidth="75.0" text="Apply ">
                      <font>
@@ -112,9 +112,9 @@
             </VBox>
          </children>
       </GridPane>
-      <Pane layoutX="410.0" layoutY="18.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="765.0" prefWidth="876.0" style="-fx-background-color: white; -fx-border-color: black;">
+      <Pane layoutX="319.0" layoutY="18.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="767.0" prefWidth="966.0" style="-fx-background-color: white; -fx-border-color: black;">
          <children>
-            <Canvas fx:id="canvasField" height="765.0" width="876.0" />
+            <Canvas fx:id="canvasField" height="767.0" width="966.0" />
          </children>
       </Pane>
    </children>

@@ -35,6 +35,8 @@ public class ApplicationUI {
     @FXML
     private Canvas canvasField;
 
+
+
     private DataStructure<Integer> structure;
     private CanvasPrinter<Integer> canvasPrinter;
     private boolean toInsert = true;
@@ -59,11 +61,11 @@ public class ApplicationUI {
         });
 
         structure = new RBTree<>();
-        for(Integer i = 0; i < 0; ++i) {
+        for(Integer i = 0; i < 14; ++i) {
             structure.insert(i);
         }
 
-        structure.insert(234);
+        structure.insert(-532);
         canvasPrinter.setStructure(structure);
 
     }

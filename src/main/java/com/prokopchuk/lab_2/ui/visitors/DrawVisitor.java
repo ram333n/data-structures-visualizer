@@ -12,7 +12,8 @@ public class DrawVisitor<T> implements IVisitor<T>{
     protected LinkedList<Dimension2D[]> edgesPoints = new LinkedList<>();
     protected double width;
     protected double height;
-    protected double nodeSize = 30;
+    protected double nodeSize = MIN_NODE_SIZE;
+    public static double MIN_NODE_SIZE = 30;
     protected int length;
 
     public DrawVisitor(double width, double height) {
@@ -44,22 +45,22 @@ public class DrawVisitor<T> implements IVisitor<T>{
 
     @Override
     public void visitList(ListNode<T> startNode) {
-        drawListNodes(startNode, null, 1);
+        drawListNodes(startNode);
     }
 
     @Override
     public void calculateTreeNodeSize() {
         nodeSize = Math.min(height / length, width / Math.pow(2, length));
-        if(nodeSize < 30) {
-            nodeSize = 30;
+        if(nodeSize < MIN_NODE_SIZE) {
+            nodeSize = MIN_NODE_SIZE;
         }
     }
 
     @Override
     public void calculateListNodeSize() {
-        nodeSize = width / length;
-        if(nodeSize < 30) {
-            nodeSize = 30;
+        nodeSize = width / (1.5 * length);
+        if(nodeSize < MIN_NODE_SIZE) {
+            nodeSize = MIN_NODE_SIZE;
         }
     }
 
@@ -87,35 +88,35 @@ public class DrawVisitor<T> implements IVisitor<T>{
         DrawData<T> toPush = new DrawData<T>(point, (T) node.getValue(), color);
         nodesData.add(toPush);
 
-//        if(!node.getLeft().isLeaf()) {
-//            drawTreeNodes(node.getLeft(), xStart, x, point, curLevel + 1);
-//        }
-//
-//        if(!node.getRight().isLeaf()) {
-//            drawTreeNodes(node.getRight(), x, xEnd, point, curLevel + 1);
-//        }
 
         drawTreeNodes(node.getLeft(), xStart, x, point, curLevel + 1);
         drawTreeNodes(node.getRight(), x, xEnd, point, curLevel + 1);
     }
 
-    private void drawListNodes(ListNode<T> node, Dimension2D parentPoint, int nodeCounter) {
+    private void drawListNodes(ListNode<T> node) {
         if(node == null) {
             return;
         }
 
-        double x = width * nodeCounter / length;
-        double y = height / 2 + + nodeSize / 2;
+        double x = nodeSize / 2;
+        double y = height / 2;
+        double step = width / length;
+        Color color = Color.rgb(0, 204, 102);
 
-        Color color = Color.YELLOW;
+        Dimension2D parentPoint = new Dimension2D(x, y);
+        DrawData<T> toPush = new DrawData<>(parentPoint, node.getValue(), color);
+        nodesData.add(toPush);
 
-        Dimension2D point = new Dimension2D(x, y);
+        node = node.getNext();
 
-        if(parentPoint != null) {
-            edgesPoints.add(new Dimension2D[]{parentPoint, point});
+        while(node != null) {
+            x += step;
+            Dimension2D point = new Dimension2D(x, y);
+            edgesPoints.push(new Dimension2D[] {parentPoint, point});
+            toPush = new DrawData<>(point, node.getValue(), color);
+            nodesData.add(toPush);
+            parentPoint = point;
+            node = node.getNext();
         }
-
-        DrawData<T> toPush = new DrawData<>(point, node.getValue(), color);
-        drawListNodes(node.getNext(), point, nodeCounter + 1);
     }
 }
