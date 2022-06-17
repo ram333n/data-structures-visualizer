@@ -1,6 +1,6 @@
 package com.prokopchuk.lab_2.data_structures.nodes;
 
-public enum Color {
+public enum RBTreeNodeColor {
     RED,
     BLACK
 }

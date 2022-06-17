@@ -4,7 +4,7 @@ import com.prokopchuk.lab_2.data_structures.builders.impl.BSTreeNodeBuilder;
 import com.prokopchuk.lab_2.data_structures.builders.impl.ListNodeBuilder;
 import com.prokopchuk.lab_2.data_structures.builders.impl.RBTreeNodeBuilder;
 import com.prokopchuk.lab_2.data_structures.nodes.BSTreeNode;
-import com.prokopchuk.lab_2.data_structures.nodes.Color;
+import com.prokopchuk.lab_2.data_structures.nodes.RBTreeNodeColor;
 import com.prokopchuk.lab_2.data_structures.nodes.ListNode;
 import com.prokopchuk.lab_2.data_structures.nodes.RBTreeNode;
 import org.junit.jupiter.api.Test;
@@ -41,10 +41,10 @@ class BuilderTests {
 
     @Test
     void testRBTreeNodeBuilder() {
-        RBTreeNode<Integer> left = new RBTreeNodeBuilder<Integer>().setValue(-100).setColor(Color.BLACK).build();
-        RBTreeNode<Integer> right = new RBTreeNodeBuilder<Integer>().setValue(200).setColor(Color.RED).build();
-        RBTreeNode<Integer> parent = new RBTreeNodeBuilder<Integer>().setValue(1000).setColor(Color.RED).build();
-        RBTreeNode<Integer> center = new RBTreeNodeBuilder<Integer>().setValue(0).setRight(right).setLeft(left).setParent(parent).setColor(Color.BLACK).build();
+        RBTreeNode<Integer> left = new RBTreeNodeBuilder<Integer>().setValue(-100).setColor(RBTreeNodeColor.BLACK).build();
+        RBTreeNode<Integer> right = new RBTreeNodeBuilder<Integer>().setValue(200).setColor(RBTreeNodeColor.RED).build();
+        RBTreeNode<Integer> parent = new RBTreeNodeBuilder<Integer>().setValue(1000).setColor(RBTreeNodeColor.RED).build();
+        RBTreeNode<Integer> center = new RBTreeNodeBuilder<Integer>().setValue(0).setRight(right).setLeft(left).setParent(parent).setColor(RBTreeNodeColor.BLACK).build();
 
         assertEquals(left, center.getLeft());
         assertEquals(right, center.getRight());
@@ -55,9 +55,9 @@ class BuilderTests {
         assertEquals(1000, parent.getValue());
         assertEquals(0, center.getValue());
 
-        assertEquals(Color.BLACK, left.getColor());
-        assertEquals(Color.RED, right.getColor());
-        assertEquals(Color.RED, parent.getColor());
-        assertEquals(Color.BLACK, center.getColor());
+        assertEquals(RBTreeNodeColor.BLACK, left.getColor());
+        assertEquals(RBTreeNodeColor.RED, right.getColor());
+        assertEquals(RBTreeNodeColor.RED, parent.getColor());
+        assertEquals(RBTreeNodeColor.BLACK, center.getColor());
     }
 }

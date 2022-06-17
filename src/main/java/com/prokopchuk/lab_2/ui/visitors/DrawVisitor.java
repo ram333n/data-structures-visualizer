@@ -1,26 +1,36 @@
 package com.prokopchuk.lab_2.ui.visitors;
 
-import com.prokopchuk.lab_2.data_structures.nodes.AbstractBinaryTreeNode;
-import com.prokopchuk.lab_2.data_structures.nodes.BaseNode;
-import com.prokopchuk.lab_2.data_structures.nodes.ListNode;
+import com.prokopchuk.lab_2.data_structures.nodes.*;
+import com.prokopchuk.lab_2.ui.DrawNodeColor;
 import javafx.geometry.Dimension2D;
+import javafx.scene.paint.Color;
 
 import java.util.LinkedList;
 
 public class DrawVisitor<T> implements IVisitor<T>{
-    protected LinkedList<Dimension2D> nodesPoints = new LinkedList<>();
+    protected LinkedList<DrawData<T>> nodesData = new LinkedList<>();
     protected LinkedList<Dimension2D[]> edgesPoints = new LinkedList<>();
-    protected int width;
-    protected int height;
-    protected int nodeSize;
+    protected double width;
+    protected double height;
+    protected double nodeSize = 30;
+    protected int length;
 
-    public DrawVisitor(int width, int height) {
+    public DrawVisitor(double width, double height) {
         this.width = width;
         this.height = height;
     }
 
-    public LinkedList<Dimension2D> getNodesPoints() {
-        return nodesPoints;
+    @Override
+    public void setLength(int length) {
+        this.length = length;
+    }
+
+    public double getNodeSize() {
+        return nodeSize;
+    }
+
+    public LinkedList<DrawData<T>> getNodesData() {
+        return nodesData;
     }
 
     public LinkedList<Dimension2D[]> getEdgesPoints() {
@@ -29,46 +39,83 @@ public class DrawVisitor<T> implements IVisitor<T>{
 
     @Override
     public void visitTree(AbstractBinaryTreeNode startNode) {
-        drawTreeNode(startNode, 0, width, null, 0);
+        drawTreeNodes(startNode, 0, width, null, 0);
     }
 
     @Override
     public void visitList(ListNode<T> startNode) {
-        //TODO : implement it;
+        drawListNodes(startNode, null, 1);
     }
 
     @Override
-    public void calculateTreeNodeSize(int length) {
-        nodeSize = (int) Math.min(height / length, width / Math.pow(2, length));
+    public void calculateTreeNodeSize() {
+        nodeSize = Math.min(height / length, width / Math.pow(2, length));
+        if(nodeSize < 30) {
+            nodeSize = 30;
+        }
     }
 
     @Override
-    public void calculateListNodeSize(int length) {
-        //TODO : implement it;
+    public void calculateListNodeSize() {
+        nodeSize = width / length;
+        if(nodeSize < 30) {
+            nodeSize = 30;
+        }
     }
 
-    private void drawTreeNode(AbstractBinaryTreeNode node, int xStart, int xEnd, Dimension2D parentPoint, int curLevel) {
+    private void drawTreeNodes(AbstractBinaryTreeNode node, double xStart, double xEnd, Dimension2D parentPoint, int curLevel) {
         if(node.isLeaf()) {
             return;
         }
 
-        int x = (xEnd - xStart) / 2 + xStart;
-        int y = curLevel * nodeSize + nodeSize / 2;
+        double x = (xEnd - xStart) / 2 + xStart;
+        double y = curLevel * nodeSize + nodeSize / 2;
+
+        Color color;
+        if(node instanceof BSTreeNode<?>) {
+            color = Color.BLUE;
+        } else {
+            color = ((RBTreeNode<?>) node).getColor() == RBTreeNodeColor.BLACK ? Color.BLACK : Color.RED;
+        }
+
         Dimension2D point = new Dimension2D(x, y);
 
         if(parentPoint != null) {
             edgesPoints.add(new Dimension2D[]{parentPoint, point});
         }
 
-        nodesPoints.add(point);
+        DrawData<T> toPush = new DrawData<T>(point, (T) node.getValue(), color);
+        nodesData.add(toPush);
 
-        if(!node.getLeft().isLeaf()) {
-            drawTreeNode(node.getLeft(), xStart, x, point, curLevel + 1);
-        }
+//        if(!node.getLeft().isLeaf()) {
+//            drawTreeNodes(node.getLeft(), xStart, x, point, curLevel + 1);
+//        }
+//
+//        if(!node.getRight().isLeaf()) {
+//            drawTreeNodes(node.getRight(), x, xEnd, point, curLevel + 1);
+//        }
 
-        if(!node.getRight().isLeaf()) {
-            drawTreeNode(node.getRight(), x, xEnd, point, curLevel + 1);
-        }
+        drawTreeNodes(node.getLeft(), xStart, x, point, curLevel + 1);
+        drawTreeNodes(node.getRight(), x, xEnd, point, curLevel + 1);
     }
 
+    private void drawListNodes(ListNode<T> node, Dimension2D parentPoint, int nodeCounter) {
+        if(node == null) {
+            return;
+        }
+
+        double x = width * nodeCounter / length;
+        double y = height / 2 + + nodeSize / 2;
+
+        Color color = Color.YELLOW;
+
+        Dimension2D point = new Dimension2D(x, y);
+
+        if(parentPoint != null) {
+            edgesPoints.add(new Dimension2D[]{parentPoint, point});
+        }
+
+        DrawData<T> toPush = new DrawData<>(point, node.getValue(), color);
+        drawListNodes(node.getNext(), point, nodeCounter + 1);
+    }
 }

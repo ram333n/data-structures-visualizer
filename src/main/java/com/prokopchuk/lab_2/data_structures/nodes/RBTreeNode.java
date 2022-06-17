@@ -1,12 +1,12 @@
 package com.prokopchuk.lab_2.data_structures.nodes;
 
 public class RBTreeNode<T> extends AbstractBinaryTreeNode<T, RBTreeNode<T>> {
-    private Color color;
+    private RBTreeNodeColor color;
 
-    public Color getColor() {
+    public RBTreeNodeColor getColor() {
         return color;
     }
-    public void setColor(Color color) {
+    public void setColor(RBTreeNodeColor color) {
         this.color = color;
     }
 }

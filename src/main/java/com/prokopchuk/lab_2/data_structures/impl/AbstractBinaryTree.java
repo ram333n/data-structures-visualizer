@@ -133,7 +133,7 @@ public abstract class AbstractBinaryTree<T extends Comparable<T>, Node extends A
             return;
         }
 
-        LinkedList<Node> queue = new LinkedList<Node>();
+        LinkedList<Node> queue = new LinkedList<>();
         queue.add(root);
 
         while(!queue.isEmpty()) {
@@ -152,10 +152,12 @@ public abstract class AbstractBinaryTree<T extends Comparable<T>, Node extends A
 
     @Override
     public void visit(IVisitor<T> visitor) {
-        visitor.calculateTreeNodeSize(length);
+        visitor.setLength(length);
+        visitor.calculateTreeNodeSize();
         visitor.visitTree(root);
     }
 
+    @Override
     public int getLength() {
         return length;
     }

@@ -1,54 +1,68 @@
 package com.prokopchuk.lab_2.ui;
 
 import com.prokopchuk.lab_2.data_structures.impl.DataStructure;
-import com.prokopchuk.lab_2.data_structures.nodes.AbstractBinaryTreeNode;
+import com.prokopchuk.lab_2.ui.visitors.DrawData;
+import com.prokopchuk.lab_2.ui.visitors.DrawVisitor;
 import javafx.geometry.Dimension2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.effect.Light;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
-import java.util.Collections;
-import java.util.LinkedList;
 
-public class CanvasPrinter {
+public class CanvasPrinter<T> {
     private Canvas canvas;
-    private DataStructure<Integer> structure;
-    private int nodeSize = 50;
-    private LinkedList<Dimension2D> nodesPoints = new LinkedList<>();
-    private LinkedList<Dimension2D[]> edgesPoints = new LinkedList<>();
+    private GraphicsContext gc;
+    private DrawVisitor<T> visitor;
 
-    private void drawTreeNode(AbstractBinaryTreeNode node, int xStart, int xEnd, Dimension2D parentPoint, int curLevel) {
-        if(node.isLeaf()) {
-            return;
-        }
+    public CanvasPrinter(Canvas canvas) {
+        this.canvas = canvas;
+        this.visitor = new DrawVisitor<>(canvas.getWidth(), canvas.getHeight());
+        this.gc = canvas.getGraphicsContext2D();
+    }
 
-        int x = (xEnd - xStart) / 2 + xStart;
-        int y = curLevel * nodeSize + nodeSize / 2;
-        Dimension2D point = new Dimension2D(x, y);
+    public void clearCanvas() {
+        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+    }
 
-        if(parentPoint != null) {
-            edgesPoints.add(new Dimension2D[]{parentPoint, point});
-        }
-
-        nodesPoints.add(point);
-        //draw nodes, using circles ...
-
-        if(!node.getLeft().isLeaf()) {
-            drawTreeNode(node.getLeft(), xStart, x, point, curLevel + 1);
-        }
-
-        if(!node.getRight().isLeaf()) {
-            drawTreeNode(node.getRight(), x, xEnd, point, curLevel + 1);
+    private void printEdges() {
+        for(Dimension2D[] edge : visitor.getEdgesPoints()) {
+            gc.beginPath();
+            gc.moveTo(edge[0].getWidth(), edge[0].getHeight());
+            gc.lineTo(edge[1].getWidth(), edge[1].getHeight());
+            gc.stroke();
         }
     }
 
-    private void drawTree() {
-        //TODO : change (int)
-        //drawTreeNode((AbstractBinaryTreeNode) structure.getStartNode(), 0, (int)canvas.getWidth(), null, 0);
+    private void printNodes() {
+        final double nodeSize = visitor.getNodeSize();
+        double fontWidth = nodeSize / 4;
+        Font font = new Font(nodeSize / 2);
+        System.out.println(font.getSize());
+        gc.setFont(font);
+
+        for(DrawData<T> drawData : visitor.getNodesData()) {
+            Dimension2D centerPoint = drawData.getCenterPoint();
+            String text = drawData.getValue().toString();
+
+            gc.setFill(drawData.getDrawNodeColor());
+            gc.fillOval(centerPoint.getWidth() - nodeSize / 2, centerPoint.getHeight() - nodeSize / 2, nodeSize, nodeSize);
+            gc.setFill(Color.YELLOWGREEN);
+
+            double offset = (nodeSize - (4 - text.length()) * fontWidth) / 2 - nodeSize / 2;
+            System.out.println(nodeSize);
+            System.out.println(offset);
+            gc.fillText(text, centerPoint.getWidth() + offset, centerPoint.getHeight() + nodeSize / 4, nodeSize);
+        }
     }
 
+    public void draw() {
+        printEdges();
+        printNodes();
+    }
 
-    public void setStructure(DataStructure<Integer> structure) {
-        this.structure = structure;
+    public void setStructure(DataStructure<T> structure) {
+        structure.visit(visitor);
+        draw();
     }
 }

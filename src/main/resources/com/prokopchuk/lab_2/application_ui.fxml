@@ -112,9 +112,9 @@
             </VBox>
          </children>
       </GridPane>
-      <Pane layoutX="410.0" layoutY="18.0" prefHeight="765.0" prefWidth="876.0" style="-fx-background-color: white; -fx-border-color: black;">
+      <Pane layoutX="410.0" layoutY="18.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="765.0" prefWidth="876.0" style="-fx-background-color: white; -fx-border-color: black;">
          <children>
-            <Canvas fx:id="canvasField" height="765.0" layoutX="6.0" width="876.0" />
+            <Canvas fx:id="canvasField" height="765.0" width="876.0" />
          </children>
       </Pane>
    </children>

@@ -4,8 +4,9 @@ import com.prokopchuk.lab_2.data_structures.nodes.AbstractBinaryTreeNode;
 import com.prokopchuk.lab_2.data_structures.nodes.ListNode;
 
 public interface IVisitor<T> {
+    void setLength(int length);
     void visitTree(AbstractBinaryTreeNode startNode);
     void visitList(ListNode<T> startNode);
-    void calculateTreeNodeSize(int length);
-    void calculateListNodeSize(int length);
+    void calculateTreeNodeSize();
+    void calculateListNodeSize();
 }

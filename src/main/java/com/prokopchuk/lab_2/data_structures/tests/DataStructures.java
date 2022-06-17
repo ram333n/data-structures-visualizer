@@ -2,7 +2,7 @@ package com.prokopchuk.lab_2.data_structures.tests;
 
 import com.prokopchuk.lab_2.data_structures.factories.DataStructuresFactory;
 import com.prokopchuk.lab_2.data_structures.impl.*;
-import com.prokopchuk.lab_2.data_structures.nodes.Color;
+import com.prokopchuk.lab_2.data_structures.nodes.RBTreeNodeColor;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
@@ -117,12 +117,12 @@ class DataStructures {
         tree.insert(15);
         tree.insert(16);
 
-        assertEquals(Color.BLACK, tree.getRoot().getColor());
-        assertEquals(Color.RED, tree.getRoot().getRight().getColor());
-        assertEquals(Color.BLACK, tree.getRoot().getLeft().getColor());
+        assertEquals(RBTreeNodeColor.BLACK, tree.getRoot().getColor());
+        assertEquals(RBTreeNodeColor.RED, tree.getRoot().getRight().getColor());
+        assertEquals(RBTreeNodeColor.BLACK, tree.getRoot().getLeft().getColor());
 
         tree.insert(3);
-        assertEquals(Color.RED, tree.getRoot().getLeft().getColor());
+        assertEquals(RBTreeNodeColor.RED, tree.getRoot().getLeft().getColor());
         assertEquals(9, tree.getLength());
     }
 
@@ -134,10 +134,10 @@ class DataStructures {
             tree.insert(i);
         }
 
-        assertEquals(Color.RED, tree.getRoot().getRight().getRight().getColor());
+        assertEquals(RBTreeNodeColor.RED, tree.getRoot().getRight().getRight().getColor());
         assertEquals(3, tree.getRoot().getValue());
-        assertEquals(Color.BLACK, tree.getRoot().getLeft().getColor());
-        assertEquals(Color.BLACK, tree.getRoot().getRight().getColor());
+        assertEquals(RBTreeNodeColor.BLACK, tree.getRoot().getLeft().getColor());
+        assertEquals(RBTreeNodeColor.BLACK, tree.getRoot().getRight().getColor());
     }
 
     @Test
@@ -150,14 +150,14 @@ class DataStructures {
 
         for(int i = 1; i < 10; i *= 2) {
             assertTrue(tree.delete(i)); //1, 2, 4, 8
-            assertEquals(Color.BLACK, tree.getRoot().getColor());
+            assertEquals(RBTreeNodeColor.BLACK, tree.getRoot().getColor());
         }
 
         assertEquals(6, tree.getLength());
 
-        assertEquals(Color.BLACK, tree.getRoot().getLeft().getColor());
-        assertEquals(Color.RED, tree.getRoot().getRight().getColor());
-        assertEquals(Color.RED, tree.getRoot().getLeft().getLeft().getColor());
+        assertEquals(RBTreeNodeColor.BLACK, tree.getRoot().getLeft().getColor());
+        assertEquals(RBTreeNodeColor.RED, tree.getRoot().getRight().getColor());
+        assertEquals(RBTreeNodeColor.RED, tree.getRoot().getLeft().getLeft().getColor());
     }
 
     @Test

@@ -1,7 +1,7 @@
 package com.prokopchuk.lab_2.data_structures.builders.impl;
 
 import com.prokopchuk.lab_2.data_structures.builders.interfaces.IRBTreeNodeBuilder;
-import com.prokopchuk.lab_2.data_structures.nodes.Color;
+import com.prokopchuk.lab_2.data_structures.nodes.RBTreeNodeColor;
 import com.prokopchuk.lab_2.data_structures.nodes.RBTreeNode;
 
 public class RBTreeNodeBuilder<T> implements IRBTreeNodeBuilder<T, RBTreeNode<T>, RBTreeNodeBuilder<T>> {
@@ -47,7 +47,7 @@ public class RBTreeNodeBuilder<T> implements IRBTreeNodeBuilder<T, RBTreeNode<T>
     }
 
     @Override
-    public RBTreeNodeBuilder<T> setColor(Color color) {
+    public RBTreeNodeBuilder<T> setColor(RBTreeNodeColor color) {
         this.builder.build().setColor(color);
         return this;
     }
