@@ -1,46 +1,39 @@
 package com.prokopchuk.lab_2.ui.memento;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.ListIterator;
 
 public class SnapshotManager {
-    private LinkedList<Snapshot> snapshots = new LinkedList<>();
-    private ListIterator<Snapshot> lastVersion;
-    private ListIterator<Snapshot> current;
+    private ArrayList<Snapshot> snapshots = new ArrayList<>();
+    private int current = 0;
 
 
     public void addSnapshot(Snapshot toAdd) {
         snapshots.add(toAdd);
-        if(lastVersion == null) {
-            lastVersion = snapshots.listIterator();
-        } else {
-            //lastVersion.next();
-        }
+
         System.out.println(snapshots.size());
-        current = lastVersion;
+        current = snapshots.size() - 1;
     }
 
     public Snapshot undo() {
-        if(current == null || !current.hasPrevious()) {
+        if(current == 0) {
             return null;
         }
 
-        return current.previous();
+        return snapshots.get(--current);
     }
 
     public Snapshot redo() {
-        if(current == null || !current.hasNext()) {
+        if(current >= snapshots.size() - 1) {
             return null;
         }
 
-        return current.next();
+        return snapshots.get(++current);
     }
 
     public void clear() {
         snapshots.clear();
-    }
-
-    public Snapshot getLastVersion() {
-        return snapshots.getLast();
+        current = 0;
     }
 }

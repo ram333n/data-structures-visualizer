@@ -11,6 +11,7 @@ public class DrawVisitor<T> implements IVisitor<T>{
     protected LinkedList<Dimension2D[]> edgesPoints = new LinkedList<>();
     protected double width;
     protected double height;
+    protected double MARGIN_TOP = 10;
     protected double nodeSize = MIN_NODE_SIZE;
     public static double MIN_NODE_SIZE = 30;
     protected int length;
@@ -75,7 +76,7 @@ public class DrawVisitor<T> implements IVisitor<T>{
         }
 
         double x = (xEnd - xStart) / 2 + xStart;
-        double y = curLevel * nodeSize + nodeSize / 2;
+        double y = curLevel * nodeSize + nodeSize / 2 + MARGIN_TOP;
 
         Color color;
         if(node instanceof BSTreeNode<?>) {

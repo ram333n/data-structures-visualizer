@@ -8,7 +8,7 @@ public class CommandDelete<T> implements ICommand<T> {
     public void execute(DataStructure<T> structure, T value) {
         if(!structure.delete(value)) {
             Alert message = new Alert(Alert.AlertType.WARNING);
-            message.setContentText("Value : " + value.toString() + " hasn't found" );
+            message.setContentText("Value  " + value.toString() + " hasn't found" );
             message.showAndWait();
             return;
         }

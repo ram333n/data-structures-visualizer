@@ -71,21 +71,24 @@ public class ApplicationUI {
         });
 
         applyBtn.setOnAction(actionEvent -> {
-//            try {
+            try {
                 Integer value = Integer.parseInt(inputField.getText());
-                System.out.println(value);
                 command.execute(structure, value);
 
                 clearCanvas(canvasField);
-                canvasPrinter.setCanvas(canvasField);
+                //TODO : need to copy canvas
+                //canvasPrinter.setCanvas(canvasField);
                 canvasPrinter.setStructure(structure);
-                snapshotManager.addSnapshot(new Snapshot(canvasField));
-                System.out.println("ABOBA");
-//            } catch (Exception ex) {
-//                Alert message = new Alert(Alert.AlertType.WARNING);
-//                message.setContentText("Incorrect input");
-//                message.showAndWait();
-//            }
+                snapshotManager.addSnapshot(getSnapshot());
+
+                if(getSnapshot().getCanvas().equals(canvasField)) {
+                    System.out.println("ABOBA");
+                }
+            } catch (Exception ex) {
+                Alert message = new Alert(Alert.AlertType.WARNING);
+                message.setContentText("Incorrect input");
+                message.showAndWait();
+            }
             inputField.clear();
         });
 
@@ -97,7 +100,7 @@ public class ApplicationUI {
                 message.setContentText("There are no previous versions of structure");
                 message.showAndWait();
             } else {
-                canvasField = snapshot.getCanvas();
+                restore(snapshot);
             }
         });
 
@@ -109,7 +112,7 @@ public class ApplicationUI {
                 message.setContentText("There are no versions of structure after that");
                 message.showAndWait();
             } else {
-                canvasField = snapshot.getCanvas();
+                restore(snapshot);
             }
         });
     }
@@ -129,5 +132,14 @@ public class ApplicationUI {
     private void clearCanvas(Canvas canvas) {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+    }
+
+    private Snapshot getSnapshot() {
+        return new Snapshot(canvasField);
+    }
+
+    private void restore(Snapshot snapshot) {
+        //clearCanvas(canvasField);
+        canvasField = snapshot.getCanvas();
     }
 }
