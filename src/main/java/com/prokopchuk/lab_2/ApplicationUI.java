@@ -5,10 +5,18 @@ import com.prokopchuk.lab_2.data_structures.impl.DataStructure;
 import com.prokopchuk.lab_2.data_structures.impl.RBTree;
 import com.prokopchuk.lab_2.data_structures.impl.SinglyLinkedList;
 import com.prokopchuk.lab_2.ui.CanvasPrinter;
+import com.prokopchuk.lab_2.ui.commands.CommandDelete;
+import com.prokopchuk.lab_2.ui.commands.CommandInsert;
+import com.prokopchuk.lab_2.ui.commands.ICommand;
+import com.prokopchuk.lab_2.ui.memento.Snapshot;
+import com.prokopchuk.lab_2.ui.memento.SnapshotManager;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
+
+import java.util.LinkedList;
 
 public class ApplicationUI {
     @FXML
@@ -35,43 +43,79 @@ public class ApplicationUI {
     @FXML
     private Canvas canvasField;
 
-
-
-    private DataStructure<Integer> structure;
+    private DataStructure<Integer> structure = new SinglyLinkedList<>();
     private CanvasPrinter<Integer> canvasPrinter;
-    private boolean toInsert = true;
-    Alert message;
+    private ICommand<Integer> command = new CommandInsert<>();
+    private SnapshotManager snapshotManager = new SnapshotManager();
 
     @FXML
     void initialize() {
-        dataStructureComboBox.setItems(FXCollections.observableArrayList("Linked list", "Binary search tree", "Red-black tree"));
+        dataStructureComboBox.setItems(FXCollections.observableArrayList("Singly linked list", "Binary search tree", "Red-black tree"));
+        dataStructureComboBox.getSelectionModel().select(0);
+
         canvasPrinter = new CanvasPrinter(canvasField);
 
         dataStructureComboBox.setOnAction(actionEvent -> {
             setStructure(dataStructureComboBox.getValue());
-            //TODO : clear canvas
+            snapshotManager.clear();
+            clearCanvas(canvasField);
+            //TODO : check it
         });
 
         insertRadioBtn.setOnAction(actionEvent -> {
-            toInsert = true;
+            command = new CommandInsert<>();
         });
 
         removeRadioBtn.setOnAction(actionEvent -> {
-            toInsert = false;
+            command = new CommandDelete<>();
         });
 
-        structure = new RBTree<>();
-        for(Integer i = 0; i < 14; ++i) {
-            structure.insert(i);
-        }
+        applyBtn.setOnAction(actionEvent -> {
+//            try {
+                Integer value = Integer.parseInt(inputField.getText());
+                System.out.println(value);
+                command.execute(structure, value);
 
-        structure.insert(-532);
-        canvasPrinter.setStructure(structure);
+                clearCanvas(canvasField);
+                canvasPrinter.setCanvas(canvasField);
+                canvasPrinter.setStructure(structure);
+                snapshotManager.addSnapshot(new Snapshot(canvasField));
+                System.out.println("ABOBA");
+//            } catch (Exception ex) {
+//                Alert message = new Alert(Alert.AlertType.WARNING);
+//                message.setContentText("Incorrect input");
+//                message.showAndWait();
+//            }
+            inputField.clear();
+        });
 
+        undoBtn.setOnAction(actionEvent -> {
+            Snapshot snapshot = snapshotManager.undo();
+
+            if(snapshot == null) {
+                Alert message = new Alert(Alert.AlertType.WARNING);
+                message.setContentText("There are no previous versions of structure");
+                message.showAndWait();
+            } else {
+                canvasField = snapshot.getCanvas();
+            }
+        });
+
+        redoBtn.setOnAction(actionEvent -> {
+            Snapshot snapshot = snapshotManager.redo();
+
+            if(snapshot == null) {
+                Alert message = new Alert(Alert.AlertType.WARNING);
+                message.setContentText("There are no versions of structure after that");
+                message.showAndWait();
+            } else {
+                canvasField = snapshot.getCanvas();
+            }
+        });
     }
 
     private void setStructure(String type) {
-        if(type.equals("Linked list")) {
+        if(type.equals("Singly linked list")) {
             structure = new SinglyLinkedList<>();
         } else if(type.equals("Binary search tree")) {
             structure = new BSTree<>();
@@ -82,4 +126,8 @@ public class ApplicationUI {
         }
     }
 
+    private void clearCanvas(Canvas canvas) {
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+    }
 }

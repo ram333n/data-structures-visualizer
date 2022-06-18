@@ -1,6 +1,5 @@
 package com.prokopchuk.lab_2.ui.visitors;
 
-import com.prokopchuk.lab_2.ui.DrawNodeColor;
 import javafx.geometry.Dimension2D;
 import javafx.scene.paint.Color;
 

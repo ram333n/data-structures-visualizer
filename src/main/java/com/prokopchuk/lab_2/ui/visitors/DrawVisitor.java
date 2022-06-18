@@ -1,7 +1,6 @@
 package com.prokopchuk.lab_2.ui.visitors;
 
 import com.prokopchuk.lab_2.data_structures.nodes.*;
-import com.prokopchuk.lab_2.ui.DrawNodeColor;
 import javafx.geometry.Dimension2D;
 import javafx.scene.paint.Color;
 
@@ -63,6 +62,12 @@ public class DrawVisitor<T> implements IVisitor<T>{
             nodeSize = MIN_NODE_SIZE;
         }
     }
+
+    public void clear() {
+        nodesData.clear();
+        edgesPoints.clear();
+    }
+
 
     private void drawTreeNodes(AbstractBinaryTreeNode node, double xStart, double xEnd, Dimension2D parentPoint, int curLevel) {
         if(node.isLeaf()) {

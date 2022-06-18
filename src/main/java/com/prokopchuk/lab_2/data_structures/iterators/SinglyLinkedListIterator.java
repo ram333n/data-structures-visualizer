@@ -4,10 +4,10 @@ import com.prokopchuk.lab_2.data_structures.nodes.ListNode;
 
 import java.util.Iterator;
 
-public class ListIterator<T> implements Iterator<T> {
+public class SinglyLinkedListIterator<T> implements Iterator<T> {
     private ListNode<T> node;
 
-    public ListIterator(ListNode<T> node) {
+    public SinglyLinkedListIterator(ListNode<T> node) {
         this.node = node;
     }
 

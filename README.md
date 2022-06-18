@@ -12,4 +12,5 @@ Implemented patterns :
 - Behaivoral patterns :
     - Iterator(for iterating through data structures)
     - Visitor(for calculating points to draw)
+    - Command(for 'Accept' button event)
 

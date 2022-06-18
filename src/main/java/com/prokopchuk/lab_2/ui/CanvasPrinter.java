@@ -16,14 +16,15 @@ public class CanvasPrinter<T> {
     private DrawVisitor<T> visitor;
 
     public CanvasPrinter(Canvas canvas) {
-        this.canvas = canvas;
+        setCanvas(canvas);
         this.visitor = new DrawVisitor<>(canvas.getWidth() - DrawVisitor.MIN_NODE_SIZE, canvas.getHeight());
+    }
+
+    public void setCanvas(Canvas canvas) {
+        this.canvas = canvas;
         this.gc = canvas.getGraphicsContext2D();
     }
 
-    public void clearCanvas() {
-        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-    }
 
     private void printEdges() {
         for(Dimension2D[] edge : visitor.getEdgesPoints()) {
@@ -49,8 +50,6 @@ public class CanvasPrinter<T> {
             gc.setFill(Color.WHITE);
 
             double offset = (nodeSize - text.length() * fontWidth) / 2;
-            System.out.println(nodeSize);
-            System.out.println(offset);
             gc.fillText(text, centerPoint.getWidth() + offset - nodeSize / 2 + DrawVisitor.MIN_NODE_SIZE / 2, centerPoint.getHeight() + nodeSize / 8);
         }
     }
@@ -61,6 +60,7 @@ public class CanvasPrinter<T> {
     }
 
     public void setStructure(DataStructure<T> structure) {
+        visitor.clear();
         structure.visit(visitor);
         draw();
     }

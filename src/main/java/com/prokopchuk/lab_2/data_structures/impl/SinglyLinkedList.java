@@ -1,7 +1,7 @@
 package com.prokopchuk.lab_2.data_structures.impl;
 
 import com.prokopchuk.lab_2.data_structures.builders.impl.ListNodeBuilder;
-import com.prokopchuk.lab_2.data_structures.iterators.ListIterator;
+import com.prokopchuk.lab_2.data_structures.iterators.SinglyLinkedListIterator;
 import com.prokopchuk.lab_2.data_structures.nodes.ListNode;
 import com.prokopchuk.lab_2.ui.visitors.IVisitor;
 
@@ -62,7 +62,7 @@ public class SinglyLinkedList<T extends Comparable<T>> implements DataStructure<
 
     @Override
     public Iterator<T> iterator() {
-        return new ListIterator<T>(head);
+        return new SinglyLinkedListIterator<T>(head);
     }
 
     @Override
