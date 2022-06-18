@@ -48,27 +48,10 @@ public class DrawVisitor<T> implements IVisitor<T>{
         drawListNodes(startNode);
     }
 
-    @Override
-    public void calculateTreeNodeSize() {
-        nodeSize = Math.min(height / length, width / Math.pow(2, length));
-        if(nodeSize < MIN_NODE_SIZE) {
-            nodeSize = MIN_NODE_SIZE;
-        }
-    }
-
-    @Override
-    public void calculateListNodeSize() {
-        nodeSize = width / (1.5 * length);
-        if(nodeSize < MIN_NODE_SIZE) {
-            nodeSize = MIN_NODE_SIZE;
-        }
-    }
-
     public void clear() {
         nodesData.clear();
         edgesPoints.clear();
     }
-
 
     private void drawTreeNodes(AbstractBinaryTreeNode node, double xStart, double xEnd, Dimension2D parentPoint, int curLevel) {
         if(node.isLeaf()) {

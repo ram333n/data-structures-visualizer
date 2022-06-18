@@ -7,6 +7,5 @@ public interface IVisitor<T> {
     void setLength(int length);
     void visitTree(AbstractBinaryTreeNode startNode);
     void visitList(ListNode<T> startNode);
-    void calculateTreeNodeSize();
-    void calculateListNodeSize();
+
 }

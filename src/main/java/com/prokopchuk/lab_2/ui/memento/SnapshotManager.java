@@ -1,8 +1,6 @@
 package com.prokopchuk.lab_2.ui.memento;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.ListIterator;
 
 public class SnapshotManager {
     private ArrayList<Snapshot> snapshots = new ArrayList<>();

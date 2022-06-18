@@ -153,7 +153,6 @@ public abstract class AbstractBinaryTree<T extends Comparable<T>, Node extends A
     @Override
     public void visit(IVisitor<T> visitor) {
         visitor.setLength(length);
-        visitor.calculateTreeNodeSize();
         visitor.visitTree(root);
     }
 

@@ -70,6 +70,7 @@ public class ApplicationUI {
             command = new CommandDelete<>();
         });
 
+        //TODO : rewrite SnapshotManager, using array of points instead canvas
         applyBtn.setOnAction(actionEvent -> {
             try {
                 Integer value = Integer.parseInt(inputField.getText());

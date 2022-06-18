@@ -56,7 +56,6 @@ public class SinglyLinkedList<T extends Comparable<T>> implements DataStructure<
     @Override
     public void visit(IVisitor<T> visitor) {
         visitor.setLength(length);
-        visitor.calculateListNodeSize();
         visitor.visitList(head);
     }
 
