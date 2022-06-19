@@ -1,6 +1,7 @@
 package com.prokopchuk.lab_2.ui;
 
 import com.prokopchuk.lab_2.data_structures.impl.DataStructure;
+import com.prokopchuk.lab_2.ui.memento.Snapshot;
 import com.prokopchuk.lab_2.ui.visitors.DrawData;
 import com.prokopchuk.lab_2.ui.visitors.DrawVisitor;
 import javafx.geometry.Dimension2D;
@@ -62,6 +63,15 @@ public class CanvasPrinter<T> {
     public void setStructure(DataStructure<T> structure) {
         visitor.clear();
         structure.visit(visitor);
+        draw();
+    }
+
+    public Snapshot<T> getSnapshot() {
+        return visitor.getSnapshot();
+    }
+
+    public void restoreBySnapshot(Snapshot<T> snapshot) {
+        visitor.restoreBySnapshot(snapshot);
         draw();
     }
 }

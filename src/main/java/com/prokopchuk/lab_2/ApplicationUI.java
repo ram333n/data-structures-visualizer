@@ -5,6 +5,7 @@ import com.prokopchuk.lab_2.data_structures.impl.DataStructure;
 import com.prokopchuk.lab_2.data_structures.impl.RBTree;
 import com.prokopchuk.lab_2.data_structures.impl.SinglyLinkedList;
 import com.prokopchuk.lab_2.ui.CanvasPrinter;
+import com.prokopchuk.lab_2.ui.NotFoundException;
 import com.prokopchuk.lab_2.ui.commands.CommandDelete;
 import com.prokopchuk.lab_2.ui.commands.CommandInsert;
 import com.prokopchuk.lab_2.ui.commands.ICommand;
@@ -46,7 +47,7 @@ public class ApplicationUI {
     private DataStructure<Integer> structure = new SinglyLinkedList<>();
     private CanvasPrinter<Integer> canvasPrinter;
     private ICommand<Integer> command = new CommandInsert<>();
-    private SnapshotManager snapshotManager = new SnapshotManager();
+    private SnapshotManager<Integer> snapshotManager = new SnapshotManager<>();
 
     @FXML
     void initialize() {
@@ -55,11 +56,13 @@ public class ApplicationUI {
 
         canvasPrinter = new CanvasPrinter(canvasField);
 
+        snapshotManager.addSnapshot(new Snapshot<>());
+
         dataStructureComboBox.setOnAction(actionEvent -> {
             setStructure(dataStructureComboBox.getValue());
             snapshotManager.clear();
             clearCanvas(canvasField);
-            //TODO : check it
+            snapshotManager.addSnapshot(new Snapshot<>());
         });
 
         insertRadioBtn.setOnAction(actionEvent -> {
@@ -70,31 +73,23 @@ public class ApplicationUI {
             command = new CommandDelete<>();
         });
 
-        //TODO : rewrite SnapshotManager, using array of points instead canvas
         applyBtn.setOnAction(actionEvent -> {
             try {
                 Integer value = Integer.parseInt(inputField.getText());
                 command.execute(structure, value);
-
                 clearCanvas(canvasField);
-                //TODO : need to copy canvas
-                //canvasPrinter.setCanvas(canvasField);
                 canvasPrinter.setStructure(structure);
-                snapshotManager.addSnapshot(getSnapshot());
-
-                if(getSnapshot().getCanvas().equals(canvasField)) {
-                    System.out.println("ABOBA");
-                }
+                snapshotManager.addSnapshot(canvasPrinter.getSnapshot());
             } catch (Exception ex) {
                 Alert message = new Alert(Alert.AlertType.WARNING);
-                message.setContentText("Incorrect input");
+                message.setContentText(ex instanceof NotFoundException ? ex.getMessage() : "Incorrect input");
                 message.showAndWait();
             }
             inputField.clear();
         });
 
         undoBtn.setOnAction(actionEvent -> {
-            Snapshot snapshot = snapshotManager.undo();
+            Snapshot<Integer> snapshot = snapshotManager.undo();
 
             if(snapshot == null) {
                 Alert message = new Alert(Alert.AlertType.WARNING);
@@ -106,7 +101,7 @@ public class ApplicationUI {
         });
 
         redoBtn.setOnAction(actionEvent -> {
-            Snapshot snapshot = snapshotManager.redo();
+            Snapshot<Integer> snapshot = snapshotManager.redo();
 
             if(snapshot == null) {
                 Alert message = new Alert(Alert.AlertType.WARNING);
@@ -135,12 +130,8 @@ public class ApplicationUI {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
     }
 
-    private Snapshot getSnapshot() {
-        return new Snapshot(canvasField);
-    }
-
-    private void restore(Snapshot snapshot) {
-        //clearCanvas(canvasField);
-        canvasField = snapshot.getCanvas();
+    private void restore(Snapshot<Integer> snapshot) {
+        clearCanvas(canvasField);
+        canvasPrinter.restoreBySnapshot(snapshot);
     }
 }

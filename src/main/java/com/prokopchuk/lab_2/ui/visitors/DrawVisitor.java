@@ -1,20 +1,21 @@
 package com.prokopchuk.lab_2.ui.visitors;
 
 import com.prokopchuk.lab_2.data_structures.nodes.*;
+import com.prokopchuk.lab_2.ui.memento.Snapshot;
 import javafx.geometry.Dimension2D;
 import javafx.scene.paint.Color;
 
 import java.util.LinkedList;
 
 public class DrawVisitor<T> implements IVisitor<T>{
-    protected LinkedList<DrawData<T>> nodesData = new LinkedList<>();
-    protected LinkedList<Dimension2D[]> edgesPoints = new LinkedList<>();
-    protected double width;
-    protected double height;
-    protected double MARGIN_TOP = 10;
-    protected double nodeSize = MIN_NODE_SIZE;
+    private LinkedList<DrawData<T>> nodesData = new LinkedList<>();
+    private LinkedList<Dimension2D[]> edgesPoints = new LinkedList<>();
+    private double width;
+    private double height;
+    private final double MARGIN_TOP = 10;
+    private double nodeSize = MIN_NODE_SIZE;
     public static double MIN_NODE_SIZE = 30;
-    protected int length;
+    private int length;
 
     public DrawVisitor(double width, double height) {
         this.width = width;
@@ -36,6 +37,15 @@ public class DrawVisitor<T> implements IVisitor<T>{
 
     public LinkedList<Dimension2D[]> getEdgesPoints() {
         return edgesPoints;
+    }
+
+    public Snapshot<T> getSnapshot() {
+        return new Snapshot<>(nodesData, edgesPoints);
+    }
+
+    public void restoreBySnapshot(Snapshot<T> snapshot) {
+        this.nodesData = (LinkedList<DrawData<T>>) snapshot.getNodesData().clone();
+        this.edgesPoints = (LinkedList<Dimension2D[]>) snapshot.getEdgesPoints().clone();
     }
 
     @Override
