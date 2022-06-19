@@ -11,10 +11,21 @@ public class BSTree<T extends Comparable<T>> extends AbstractBinaryTree<T, BSTre
         nilNode = new BSTreeNode<T>();
         root = nilNode;
     }
+//    @Override
+//    public void insert(T value) {
+//        BSTreeNode<T> toInsert = new BSTreeNodeBuilder<T>().setValue(value).setLeft(nilNode).setRight(nilNode).build();
+//        insertNode(toInsert);
+//    }
+
+
     @Override
-    public void insert(T value) {
-        BSTreeNode<T> toInsert = new BSTreeNodeBuilder<T>().setValue(value).setLeft(nilNode).setRight(nilNode).build();
-        insertNode(toInsert);
+    protected BSTreeNode<T> createNodeToInsert(T value) {
+        return new BSTreeNodeBuilder<T>().setValue(value).setLeft(nilNode).setRight(nilNode).build();
+    }
+
+    @Override
+    protected void insertFixup(BSTreeNode<T> toInsert) {
+        //nothing to fixup
     }
 
     @Override

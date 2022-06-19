@@ -14,4 +14,5 @@ Implemented patterns :
     - Visitor(for calculating points to draw)
     - Command(for 'Accept' button event)
     - Memento(for saving previous points to draw)
+    - Template method(for implementation of insert() in trees)
 

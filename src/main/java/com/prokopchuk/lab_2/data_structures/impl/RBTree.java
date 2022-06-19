@@ -14,42 +14,48 @@ public class RBTree<T extends Comparable<T>> extends AbstractBinaryTree<T, RBTre
         root = nilNode;
     }
 
-    private void insertFixup(RBTreeNode<T> z) {
+    @Override
+    protected RBTreeNode<T> createNodeToInsert(T value) {
+        return new RBTreeNodeBuilder<T>().setValue(value).setColor(RBTreeNodeColor.RED).setLeft(nilNode).setRight(nilNode).build();
+    }
+
+    @Override
+    protected void insertFixup(RBTreeNode<T> toInsert) {
         RBTreeNode<T> y;
-        while(z.getParent().getColor() == RBTreeNodeColor.RED) {
-            if(z.getParent() == z.getParent().getParent().getLeft()) {
-                y = z.getParent().getParent().getRight();
+        while(toInsert.getParent().getColor() == RBTreeNodeColor.RED) {
+            if(toInsert.getParent() == toInsert.getParent().getParent().getLeft()) {
+                y = toInsert.getParent().getParent().getRight();
                 if(y.getColor() == RBTreeNodeColor.RED) {
-                    z.getParent().setColor(RBTreeNodeColor.BLACK);
+                    toInsert.getParent().setColor(RBTreeNodeColor.BLACK);
                     y.setColor(RBTreeNodeColor.BLACK);
-                    z.getParent().getParent().setColor(RBTreeNodeColor.RED);
-                    z = z.getParent().getParent();
+                    toInsert.getParent().getParent().setColor(RBTreeNodeColor.RED);
+                    toInsert = toInsert.getParent().getParent();
                 } else {
-                    if(z == z.getParent().getRight()) {
-                        z = z.getParent();
-                        rotateLeft(z);
+                    if(toInsert == toInsert.getParent().getRight()) {
+                        toInsert = toInsert.getParent();
+                        rotateLeft(toInsert);
                     }
 
-                    z.getParent().setColor(RBTreeNodeColor.BLACK);
-                    z.getParent().getParent().setColor(RBTreeNodeColor.RED);
-                    rotateRight(z.getParent().getParent());
+                    toInsert.getParent().setColor(RBTreeNodeColor.BLACK);
+                    toInsert.getParent().getParent().setColor(RBTreeNodeColor.RED);
+                    rotateRight(toInsert.getParent().getParent());
                 }
             } else {
-                y = z.getParent().getParent().getLeft();
+                y = toInsert.getParent().getParent().getLeft();
                 if(y.getColor() == RBTreeNodeColor.RED) {
-                    z.getParent().setColor(RBTreeNodeColor.BLACK);
+                    toInsert.getParent().setColor(RBTreeNodeColor.BLACK);
                     y.setColor(RBTreeNodeColor.BLACK);
-                    z.getParent().getParent().setColor(RBTreeNodeColor.RED);
-                    z = z.getParent().getParent();
+                    toInsert.getParent().getParent().setColor(RBTreeNodeColor.RED);
+                    toInsert = toInsert.getParent().getParent();
                 } else {
-                    if(z == z.getParent().getLeft()) {
-                        z = z.getParent();
-                        rotateRight(z);
+                    if(toInsert == toInsert.getParent().getLeft()) {
+                        toInsert = toInsert.getParent();
+                        rotateRight(toInsert);
                     }
 
-                    z.getParent().setColor(RBTreeNodeColor.BLACK);
-                    z.getParent().getParent().setColor(RBTreeNodeColor.RED);
-                    rotateLeft(z.getParent().getParent());
+                    toInsert.getParent().setColor(RBTreeNodeColor.BLACK);
+                    toInsert.getParent().getParent().setColor(RBTreeNodeColor.RED);
+                    rotateLeft(toInsert.getParent().getParent());
                 }
             }
         }
@@ -117,12 +123,6 @@ public class RBTree<T extends Comparable<T>> extends AbstractBinaryTree<T, RBTre
             }
         }
         x.setColor(RBTreeNodeColor.BLACK);
-    }
-    @Override
-    public void insert(T value) {
-        RBTreeNode<T> toInsert = new RBTreeNodeBuilder<T>().setValue(value).setColor(RBTreeNodeColor.RED).setLeft(nilNode).setRight(nilNode).build();
-        insertNode(toInsert);
-        insertFixup(toInsert);
     }
 
     @Override

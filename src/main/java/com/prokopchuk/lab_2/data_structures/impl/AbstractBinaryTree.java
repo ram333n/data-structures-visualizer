@@ -119,9 +119,20 @@ public abstract class AbstractBinaryTree<T extends Comparable<T>, Node extends A
         return Math.max(getHeightImpl(node.getLeft()), getHeightImpl(node.getRight())) + 1;
     }
 
+    protected abstract Node createNodeToInsert(T value);
+
+    protected abstract void insertFixup(Node toInsert);
+
     @Override
     public boolean search(T value) {
         return find(value) != nilNode;
+    }
+
+    @Override
+    public void insert(T value) {
+        Node toInsert = createNodeToInsert(value);
+        insertNode(toInsert);
+        insertFixup(toInsert);
     }
 
     public int getHeight() {
