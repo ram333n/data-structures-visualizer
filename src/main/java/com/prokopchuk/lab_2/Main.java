@@ -1,6 +1,5 @@
 package com.prokopchuk.lab_2;
 
-import com.prokopchuk.lab_2.data_structures.impl.RBTree;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -14,7 +13,7 @@ public class Main extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("application_ui.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1300, 800);
         stage.setResizable(false);
-        stage.setTitle("Data visualizer");
+        stage.setTitle("Data structures visualizer");
         stage.setScene(scene);
         stage.show();
     }
